@@ -1,0 +1,90 @@
+site_name: Mi Blog
+site_description: Mi Portfolio and knowledge base
+site_author: Mimi P
+site_url: https://whoamimi.github.io/@whoamimi.github.io
+
+repo_name: whoamimi.github.io
+repo_url: https://github.com/whoamimi/@whoamimi.github.io
+
+theme:
+  name: terminal 
+  palette: dark
+  features:
+    - search.suggest
+    - search.highlight 
+    - content.code.copy
+    - footer.prev_next
+    - footer.social
+    - navigation.instant
+    - navigation.side.hide
+    - navigation.top.site_name
+    - navigation.top.search_button
+    - navigation.accent
+    - revision.date
+    - revision.history
+
+  language: en
+extra_css:
+  - stylesheets/cherry-blossom.css
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.blocks.details:
+      types:
+        - name: info
+          class: terminal-alert
+          title: Info
+        - name: warn
+          class: 'terminal-alert terminal-alert-error'
+          title: Warning
+        - name: important
+          class: 'terminal-alert terminal-alert-primary'
+          title: Important
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.mark
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      preserve_tabs: true
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+    
+  - pymdownx.highlight:
+      use_pygments: true          # use pygments library    
+      pygments_style: nord-darker # use 'github-dark' style
+      noclasses: true             # update HTML style attr
+  - pymdownx.inlinehilite         # style inline code
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Blog: blog/index.md
+  - Projects:
+    - knowledge-base/index.md
+
+plugins:
+  - search
+  - macros
+  - blog:
+      format: "(%d/%m/%yyyy)"
+      text-align: "right"
+      blog_dir: blog
+  - mermaid2:
+      version: 10.0.2
+
+extra:
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/zensical
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@zensical
+    - icon: fontawesome/brands/github
+      link: https://github.com/whoamimi

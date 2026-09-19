@@ -219,6 +219,4 @@ __marimo__/
 .venv/
 .kaggle-outputs/
 .outputs/
-plug-mimi/
-blog-mimi/
 setup.ipynb
