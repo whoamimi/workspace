@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 class BotnetLogger(logging.Formatter):
-    """Uvicorn-style formatter with pastel colors and caller info"""
+    """Custom Logger formatter with pastel colors and caller info"""
 
     # Colors
     RESET = "\033[0m"

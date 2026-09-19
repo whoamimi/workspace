@@ -1,10 +1,15 @@
-"""workspace/main.py"""
+"""workspace/main.py
+
+Contains custom CLI Module for this workspace and serves as entry point for navigating around this Macbook's workspace.
+"""
 
 import logging
 from datetime import datetime
 from pathlib import Path
 
 from _utils.logger import setup_logger
+
+# Checks exec run is by correct path
 
 cwd = Path().resolve()
 timestamp = datetime.now()
@@ -26,6 +31,6 @@ setup_logger(
 )
 
 logger = logging.getLogger(__name__)
-logger.info(
-    "Welcome to Mimi's Workspace! This is the main.py file at sub directory ./workspace containing custom reusuable architects/algorithms."
+logger.debug(
+    "Welcome to Mimi's Workspace! Use this CLI tool to navigate around hackathons, projects and curious side-tracks!"
 )
