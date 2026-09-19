@@ -32,10 +32,18 @@ description) modalities via a CLIP-style vision-language model.
    texts (`"This is a Brain scan of <modality>"`), then score
    image–text similarity (`run_inference`) as an ensemble signal alongside
    the imaging model.
+3. **Baseline 3D CNN detector** (`src/models/detector.py`) —
+   `AneurysmDetector3D`: 4 conv/batchnorm/pool blocks over the
+   `(1, 64, 64, 64)` volume, global average pooled and projected to one
+   logit per `LABEL_COLS` entry (13 locations + the binary "Aneurysm
+   Present" summary), trained with multi-label BCE (`compute_loss`).
+   **Not yet trained** — this is a starting architecture, wired and
+   unit-tested against synthetic tensors, not validated against real
+   competition data.
 
-`notebooks/00_eda.ipynb` now only demonstrates these two modules end to
-end; the loading/normalization and zero-shot scoring logic itself lives in
-`src/`, importable and testable independent of the notebook.
+`notebooks/00_eda.ipynb` now only demonstrates these modules end to end;
+the loading/normalization, zero-shot scoring, and detector logic itself
+lives in `src/`, importable and testable independent of the notebook.
 
 ## Evaluation
 
@@ -45,17 +53,18 @@ once confirmed against the competition page._
 
 ## Results
 
-_Data preparation and zero-shot BiomedCLIP scoring only — no trained
-detector or submission yet._
+_Data preparation, zero-shot BiomedCLIP scoring, and an untrained
+baseline detector architecture — no training run or submission yet._
 
 ## Extensions
 
-- Add the actual aneurysm-detection head/ensembling step; current code
-  stops at zero-shot image–text similarity scoring.
-- Document the official evaluation metric and add local validation.
-- Add unit tests for `src/data/dataset.py`'s preprocessing helpers
-  (`_ct_mr_normalize`, `_resize_zyx`, `_select_indices`) now that they're
-  standalone functions.
+- Train `AneurysmDetector3D` against real competition data once available
+  (unavailable in this environment) and record results here.
+- Combine the 3D CNN's per-label logits with BiomedCLIP's zero-shot
+  modality scores into a single ensemble prediction (currently two
+  separate, uncombined signals).
+- Document the official evaluation metric and add local validation
+  (train/val split, early stopping).
 
 ## References
 

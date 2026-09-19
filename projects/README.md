@@ -93,6 +93,24 @@ itself, not a static requirements file, because the competition kernel has
 no internet access at submission time and needs specific packages
 uninstalled first to avoid version conflicts — see that project's README.
 
+## Testing Convention
+
+A project's `tests/` (where present) is run independently:
+
+```bash
+pytest projects/<project>/tests
+```
+
+**Every project's `src/` uses the same top-level package name `src`**
+(per the directory template above). Running more than one project's
+tests in a single `pytest` process — e.g. `pytest projects/` from the
+repo root — needs the previous project's `src` cleared from
+`sys.modules` first, or Python's import cache resolves a later
+project's `from src...` to whichever project imported it first and
+fails with a confusing `ModuleNotFoundError`. Each `tests/*.py` file
+handles this itself (see the comment above its `sys.path` setup); it's
+not something a project relying on this template gets for free.
+
 ## Project Status
 
 Tracks actual state against the [portfolio cleanup checklist](./TODO.md).
