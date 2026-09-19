@@ -1,0 +1,6 @@
+# Extra dependencies beyond the root requirements.txt (see projects/README.md
+# "Dependency Convention"). Install with:
+#   pip install -r requirements.txt -r projects/2025-hedge-fund-forecasting/requirements-extra.txt
+
+lightgbm==4.7.0
+polars==1.44.2

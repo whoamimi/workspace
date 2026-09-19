@@ -69,6 +69,48 @@ data/processed/
 models/
 ```
 
+## Dependency Convention
+
+The root [`requirements.txt`](../requirements.txt) is a full freeze of the
+shared workspace environment (Jupyter, numpy/pandas/scipy/scikit-learn,
+torch, transformers, sentence-transformers, etc.) — install it first for
+any project.
+
+A project adds its **own** `requirements-extra.txt` only when it needs
+packages beyond that base (e.g. `2025-rsna-competition/requirements-extra.txt`
+for `pydicom`/`nibabel`/`open-clip-torch`/`albumentations`). Install it
+alongside the root file:
+
+```bash
+pip install -r requirements.txt -r projects/<project>/requirements-extra.txt
+```
+
+Don't use a project-local `pyproject.toml` unless a project needs a fully
+separate, isolated environment (dependency conflicts, a different Python
+version). `2026-aimo3` is the one exception in this repo: its Unsloth/vLLM
+stack is deliberately installed by `notebooks/00_dependency_setup.ipynb`
+itself, not a static requirements file, because the competition kernel has
+no internet access at submission time and needs specific packages
+uninstalled first to avoid version conflicts — see that project's README.
+
+## Testing Convention
+
+A project's `tests/` (where present) is run independently:
+
+```bash
+pytest projects/<project>/tests
+```
+
+**Every project's `src/` uses the same top-level package name `src`**
+(per the directory template above). Running more than one project's
+tests in a single `pytest` process — e.g. `pytest projects/` from the
+repo root — needs the previous project's `src` cleared from
+`sys.modules` first, or Python's import cache resolves a later
+project's `from src...` to whichever project imported it first and
+fails with a confusing `ModuleNotFoundError`. Each `tests/*.py` file
+handles this itself (see the comment above its `sys.path` setup); it's
+not something a project relying on this template gets for free.
+
 ## Project Status
 
 Tracks actual state against the [portfolio cleanup checklist](./TODO.md).

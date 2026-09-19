@@ -35,9 +35,9 @@ CACHE_DIR = BASE_OUTPUT_PATH / "cache"
 
 # ---------- helpers ----------
 
-def _series_cache_path(series_uid: str, cache_dir: Path = CACHE_DIR) -> Path:
+def _series_cache_path(series_uid: str, target_size: Tuple[int, int, int], cache_dir: Path = CACHE_DIR) -> Path:
     cache_dir.mkdir(parents=True, exist_ok=True)
-    d, h, w = TARGET_SIZE
+    d, h, w = target_size
     return cache_dir / f"{series_uid}_{d}x{h}x{w}.npz"
 
 
@@ -122,6 +122,18 @@ def _to_pil_uint8(arr2d: np.ndarray) -> Image.Image:
     return Image.fromarray((a * 255).astype(np.uint8), mode="L")
 
 
+def _to_zyx_layout(seg: np.ndarray) -> np.ndarray:
+    """Detect a (H, W, Z) NIfTI segmentation layout and transpose to (Z, H, W).
+
+    NIfTI segmentations are commonly stored (H, W, Z) with Z the smallest
+    axis (in-plane resolution >> slice count); anything else is assumed to
+    already be (Z, H, W).
+    """
+    if seg.ndim == 3 and seg.shape[-1] < seg.shape[0] and seg.shape[-1] < seg.shape[1]:
+        return np.transpose(seg, (2, 0, 1))
+    return seg
+
+
 # ---------- Dataset ----------
 
 class BrainAneurysmDataset(Dataset):
@@ -193,7 +205,7 @@ class BrainAneurysmDataset(Dataset):
 
     def _read_series_build_volume(self, series_uid: str) -> tuple[np.ndarray, dict]:
         """Load -> rescale -> stack -> normalize -> resize -> cache."""
-        cache_p = _series_cache_path(series_uid)
+        cache_p = _series_cache_path(series_uid, self.target_size)
         if cache_p.exists():
             d = np.load(str(cache_p), allow_pickle=True)
             return d["volume"], (d["meta"].item() if "meta" in d else {})
@@ -252,9 +264,7 @@ class BrainAneurysmDataset(Dataset):
                 try:
                     nii = nib.load(str(p))
                     seg = np.asarray(nii.get_fdata(), dtype=np.uint8)  # (Z,H,W) or (H,W,Z)
-                    if seg.ndim == 3 and seg.shape[0] not in (TARGET_SIZE[0],):
-                        if seg.shape[-1] > seg.shape[0]:
-                            seg = np.transpose(seg, (2, 0, 1))
+                    seg = _to_zyx_layout(seg)
                     seg = _resize_zyx(seg.astype(np.float32), target=self.target_size, order=0).astype(np.uint8)
                     return seg
                 except Exception:
@@ -295,7 +305,7 @@ class BrainAneurysmDataset(Dataset):
                 "modality": meta.get("Modality", row.get("Modality", None)),
                 "age": row.get("PatientAge", None),
                 "sex": row.get("PatientSex", None),
-                "num_slices": int(meta.get("Rows", 0)) if meta.get("Rows", None) else int(D),
+                "num_slices": int(D),  # actual loaded slice count -- DICOM "Rows" is in-plane height, not slice count
                 "pixel_spacing": meta.get("PixelSpacing", None),
                 "dicom_meta": {k: meta.get(k, None) for k in DICOM_TAG_ALLOWLIST},
             },

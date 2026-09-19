@@ -1,0 +1,8 @@
+# Extra dependencies beyond the root requirements.txt (see projects/README.md
+# "Dependency Convention"). Install with:
+#   pip install -r requirements.txt -r projects/2025-rsna-competition/requirements-extra.txt
+
+albumentations==2.0.8
+nibabel==5.4.2
+open-clip-torch==3.3.0
+pydicom==3.0.2

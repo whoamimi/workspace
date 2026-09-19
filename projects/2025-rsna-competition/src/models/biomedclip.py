@@ -1,5 +1,6 @@
 """Zero-shot BiomedCLIP image-text scoring, used as an ensemble signal alongside
-the volumetric aneurysm detector in src/data/dataset.py.
+the volumetric aneurysm detector in src/models/detector.py (trained on the
+volumes BrainAneurysmDataset, in src/data/dataset.py, produces).
 
 Moved out of notebooks/00_eda.ipynb ("PUBMed Bert model").
 See https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224
