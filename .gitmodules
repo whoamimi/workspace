@@ -1,0 +1,3 @@
+[submodule "blog-mimi"]
+	path = blog-mimi
+	url = https://github.com/whoamimi/whoamimi.github.io.git
