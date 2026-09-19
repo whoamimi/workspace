@@ -65,8 +65,9 @@ class NGramKernelProcessorTests(unittest.TestCase):
         processor = NGramKernelProcessor(context_size=1, column="j_call")
 
         ngrams = processor(data)
+        ids = [processor.tag2id[value] for value in data["j_call"]]
 
-        self.assertEqual(len(ngrams), 2)
+        self.assertEqual(ngrams, [([ids[0]], ids[1]), ([ids[1]], ids[2])])
 
     def test_ngram_processor_raises_for_missing_column(self):
         processor = NGramKernelProcessor(context_size=1, column="j_call")
