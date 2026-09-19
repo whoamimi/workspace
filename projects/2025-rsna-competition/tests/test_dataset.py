@@ -29,7 +29,9 @@ from src.data.dataset import (
     _ct_mr_normalize,
     _resize_zyx,
     _select_indices,
+    _series_cache_path,
     _to_pil_uint8,
+    _to_zyx_layout,
 )
 
 
@@ -117,3 +119,39 @@ class TestToPilUint8:
         pixels = np.array(img)
         assert pixels[0, 0] == 0
         assert pixels[0, 1] == 255
+
+
+class TestSeriesCachePath:
+    """Regression test for a Copilot-flagged bug on PR #3: the cache key used
+    to bake in the global TARGET_SIZE regardless of what target_size a
+    Dataset instance was actually configured with, so a non-default
+    target_size would silently read/write the wrong cache file."""
+
+    def test_cache_path_reflects_the_given_target_size_not_a_global(self, tmp_path):
+        p1 = _series_cache_path("abc", target_size=(64, 64, 64), cache_dir=tmp_path)
+        p2 = _series_cache_path("abc", target_size=(32, 32, 32), cache_dir=tmp_path)
+        assert p1 != p2
+        assert "64x64x64" in p1.name
+        assert "32x32x32" in p2.name
+
+
+class TestToZyxLayout:
+    """Regression test for a Copilot-flagged bug on PR #3: the original
+    heuristic (`shape[-1] > shape[0]`) got the transpose backwards for a
+    common (H, W, Z) NIfTI layout like (512, 512, 100), leaving it
+    untransposed and corrupting the mask when later treated as (Z, H, W)."""
+
+    def test_transposes_hwz_layout_to_zhw(self):
+        seg = np.zeros((512, 512, 100), dtype=np.uint8)  # (H, W, Z), Z smallest
+        out = _to_zyx_layout(seg)
+        assert out.shape == (100, 512, 512)  # (Z, H, W)
+
+    def test_leaves_already_zhw_layout_unchanged(self):
+        seg = np.zeros((100, 512, 512), dtype=np.uint8)  # already (Z, H, W)
+        out = _to_zyx_layout(seg)
+        assert out.shape == (100, 512, 512)
+
+    def test_leaves_non_3d_input_unchanged(self):
+        seg = np.zeros((512, 512), dtype=np.uint8)
+        out = _to_zyx_layout(seg)
+        assert out.shape == (512, 512)

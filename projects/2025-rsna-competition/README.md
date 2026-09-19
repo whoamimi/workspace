@@ -45,6 +45,23 @@ description) modalities via a CLIP-style vision-language model.
 the loading/normalization, zero-shot scoring, and detector logic itself
 lives in `src/`, importable and testable independent of the notebook.
 
+**Bugs found and fixed** (via automated code review on the src/ split,
+`tests/test_dataset.py` has regression tests for the two data bugs):
+- `_series_cache_path` baked the *global* `TARGET_SIZE` into cache
+  filenames instead of the `Dataset`'s actual `target_size`, so a
+  non-default `target_size` could silently read/write the wrong cache
+  file. Pre-existing in the original notebook, not introduced by the split.
+- The NIfTI segmentation orientation heuristic (`shape[-1] > shape[0]`)
+  had the comparison backwards for a common `(H, W, Z)` layout like
+  `(512, 512, 100)`, leaving it untransposed and corrupting the mask.
+  Also pre-existing; now a standalone, tested `_to_zyx_layout`.
+- `metadata["num_slices"]` was populated from the DICOM `Rows` tag
+  (in-plane height), not the actual slice count — now uses `D` directly.
+- The notebook's `sys.path` setup assumed `Path.cwd().parent` always
+  points at the project root, which breaks depending on how the notebook
+  is launched — now tries a few candidates and fails loudly if none
+  contain `src/`.
+
 ## Evaluation
 
 _Not yet documented — record the official RSNA competition metric
