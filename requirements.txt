@@ -1,0 +1,12 @@
+# requirements.txt
+
+jupyter
+nbconvert
+
+# Data Science Stack
+pandas 
+matplotlib
+polars
+transformers 
+accelerate 
+torch

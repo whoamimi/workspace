@@ -1,0 +1,131 @@
+{
+  "False_Correct:NA": "The student's response is incorrect, but their explanation shows correct reasoning. This likely reflects a minor slip or arithmetic mistake rather than a conceptual error.",
+
+  "False_Misconception:Adding_across": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: adding numerators and denominators separately (cross addition).",
+
+  "False_Misconception:Adding_terms": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: incorrectly adding terms that cannot be combined.",
+
+  "False_Misconception:Additive": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: using additive reasoning where multiplicative reasoning is needed.",
+
+  "False_Misconception:Base_rate": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: misunderstanding base rates or baseline comparisons.",
+
+  "False_Misconception:Certainty": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: treating probabilistic events as certain.",
+
+  "False_Misconception:Definition": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: misunderstanding basic mathematical definitions.",
+
+  "False_Misconception:Denominator-only_change": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: only changing denominator when finding equivalent fractions.",
+
+  "False_Misconception:Division": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: using division incorrectly or in wrong context.",
+
+  "False_Misconception:Duplication": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: duplicating steps or counting elements multiple times.",
+
+  "False_Misconception:Firstterm": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: focusing only on first term while ignoring others.",
+
+  "False_Misconception:FlipChange": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: incorrectly flipping or inverting numbers/fractions during operations.",
+
+  "False_Misconception:Ignores_zeroes": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: ignoring trailing zeros or their significance.",
+
+  "False_Misconception:Incomplete": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: partial understanding but reasoning is incomplete or lacks key steps.",
+
+  "False_Misconception:Incorrect_equivalent_fraction_addition": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: misunderstanding equivalent fractions in addition.",
+
+  "False_Misconception:Interior": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: confusing interior and exterior elements or relationships.",
+
+  "False_Misconception:Inverse_operation": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: using the inverse of the required operation.",
+
+  "False_Misconception:Inversion": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: inverting relationships or operations incorrectly.",
+
+  "False_Misconception:Irrelevant": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: focusing on irrelevant information or using irrelevant reasoning.",
+
+  "False_Misconception:Longer_is_bigger": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: assuming numbers with more digits are larger.",
+
+  "False_Misconception:Mult": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: using multiplication instead of the correct operation.",
+
+  "False_Misconception:Multiplying_by_4": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: incorrectly multiplying by 4 in specific contexts.",
+
+  "False_Misconception:Not_variable": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: treating variables as fixed values rather than unknowns.",
+
+  "False_Misconception:Positive": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: assuming all results must be positive.",
+
+  "False_Misconception:Scale": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: misunderstanding scaling or proportional relationships.",
+
+  "False_Misconception:Shorter_is_bigger": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: assuming numbers with fewer digits are larger.",
+
+  "False_Misconception:Subtraction": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: using subtraction incorrectly or in wrong context.",
+
+  "False_Misconception:SwapDividend": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: swapping dividend and divisor in division operations.",
+
+  "False_Misconception:Tacking": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: adding extra elements or steps inappropriately.",
+
+  "False_Misconception:Unknowable": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: claiming problem cannot be solved when it can be.",
+
+  "False_Misconception:WNB": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: when numerator bigger - incorrectly assumes operations when numerator is larger.",
+
+  "False_Misconception:Whole_numbers_larger": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: believing whole numbers are always larger than fractions/decimals.",
+
+  "False_Misconception:Wrong_Operation": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: using completely wrong mathematical operation.",
+
+  "False_Misconception:Wrong_Fraction": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: misunderstanding fraction concepts or representations.",
+
+  "False_Misconception:Wrong_fraction": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: fundamental misunderstanding of fraction concepts.",
+
+  "False_Misconception:Wrong_term": "The student's response is incorrect and the explanation indicates a specific misconception. This represents a clear case of misunderstanding tied to a known misconception category. Specifically, this involves: identifying or using incorrect mathematical terms.",
+
+  "False_Neither:NA": "The student's response is incorrect, but the explanation does not map to a known misconception. Their reasoning is wrong, but not in a way that matches the predefined misconception labels.",
+
+  "True_Correct:NA": "The student's response is correct (i.e. they do not have a misconception). It's 'True' meaning the ground-truth answer is valid. No conceptual error.",
+
+  "True_Misconception:Adding_across": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: adding numerators and denominators separately (cross addition).",
+
+  "True_Misconception:Additive": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: using additive reasoning where multiplicative reasoning is needed.",
+
+  "True_Misconception:Base_rate": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: misunderstanding base rates or baseline comparisons.",
+
+  "True_Misconception:Definition": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: misunderstanding basic mathematical definitions.",
+
+  "True_Misconception:Denominator-only_change": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: only changing denominator when finding equivalent fractions.",
+
+  "True_Misconception:Division": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: using division incorrectly or in wrong context.",
+
+  "True_Misconception:Duplication": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: duplicating steps or counting elements multiple times.",
+
+  "True_Misconception:Firstterm": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: focusing only on first term while ignoring others.",
+
+  "True_Misconception:FlipChange": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: incorrectly flipping or inverting numbers/fractions during operations.",
+
+  "True_Misconception:Incomplete": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: partial understanding but reasoning is incomplete or lacks key steps.",
+
+  "True_Misconception:Incorrect_equivalent_fraction_addition": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: misunderstanding equivalent fractions in addition.",
+
+  "True_Misconception:Inversion": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: inverting relationships or operations incorrectly.",
+
+  "True_Misconception:Irrelevant": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: focusing on irrelevant information or using irrelevant reasoning.",
+
+  "True_Misconception:Longer_is_bigger": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: assuming numbers with more digits are larger.",
+
+  "True_Misconception:Mult": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: using multiplication instead of the correct operation.",
+
+  "True_Misconception:Multiplying_by_4": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: incorrectly multiplying by 4 in specific contexts.",
+
+  "True_Misconception:Not_variable": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: treating variables as fixed values rather than unknowns.",
+
+  "True_Misconception:Positive": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: assuming all results must be positive.",
+
+  "True_Misconception:Shorter_is_bigger": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: assuming numbers with fewer digits are larger.",
+
+  "True_Misconception:Subtraction": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: using subtraction incorrectly or in wrong context.",
+
+  "True_Misconception:SwapDividend": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: swapping dividend and divisor in division operations.",
+
+  "True_Misconception:Tacking": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: adding extra elements or steps inappropriately.",
+
+  "True_Misconception:WNB": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: when numerator bigger - incorrectly assumes operations when numerator is larger.",
+
+  "True_Misconception:Whole_numbers_larger": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: believing whole numbers are always larger than fractions/decimals.",
+
+  "True_Misconception:Wrong_fraction": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: fundamental misunderstanding of fraction concepts.",
+
+  "True_Misconception:Wrong_term": "The student's answer is technically correct, but their explanation reveals a misconception. They may have arrived at the right answer by flawed reasoning or a partial misunderstanding. Specifically, this involves: identifying or using incorrect mathematical terms.",
+
+  "True_Neither:NA": "The student's response is not incorrect in a way that maps to a known misconception, but also not exactly 'fully correct'. This may capture ambiguous or edge cases where the explanation doesn't reveal correctness or a misconception clearly."
+}
