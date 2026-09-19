@@ -37,20 +37,9 @@ A project is portfolio-ready when it has:
       `reports/figures/` to the root `.gitignore` — scoped to
       `projects/*/...` (one path segment) so it doesn't also match nested
       `src/models/` code directories.
-- [x] Decide and document one convention for per-project envs: root
-      `requirements.txt` (full environment freeze) is the base for every
-      project; a project adds its own `requirements-extra.txt` only for
-      packages beyond that base. Documented in `projects/README.md`
-      ("Dependency Convention"). Added `requirements-extra.txt` for
-      `2025-brain-to-text` (h5py), `2025-hedge-fund-forecasting`
-      (lightgbm, polars), `2025-rsna-competition` (pydicom, nibabel,
-      open-clip-torch, albumentations), and `2026-march-madness-ncaa`
-      (catboost, lightgbm, xgboost — only needed for `references/`).
-      Also added `matplotlib`/`seaborn` to the root freeze since half the
-      projects used them without either being pinned anywhere.
-      `2026-aimo3` is the documented exception: its deps are installed by
-      `notebooks/00_dependency_setup.ipynb` itself, not a requirements
-      file, due to the no-internet-at-submission constraint.
+- [ ] Decide and document one convention for per-project envs: always root
+      `requirements.txt`, or allow a project-local `pyproject.toml` — several
+      projects already assume Kaggle-kernel-installed deps with no manifest.
 - [x] Add a short **status table** to `projects/README.md` (Draft / In
       Progress / Submitted / Written Up).
 - [x] Remove and `.gitignore` the stray `.DS_Store` files.
@@ -63,17 +52,9 @@ A project is portfolio-ready when it has:
       (`pd.DataFrame` type hint used without importing pandas).
 - [x] Rename notebook to `notebooks/00_eda.ipynb`.
 - [x] Document current status (EDA/scaffolding only) in the README.
-- [x] Implement `NGramKernelProcessor.__call__` — builds
-      `(context, target)` index n-grams over a configurable column
-      (default `v_call`), extending vocab across calls. Documented
-      assumption: treats DataFrame row order as sequence order (doesn't
-      sort) — the real ordering is a domain decision, flagged in the
-      README. Covered by `tests/test_ngram.py` (8 tests, including an
-      end-to-end training step showing loss decreases, run and passing).
+- [ ] Implement `NGramKernelProcessor.__call__` (currently `pass`).
 - [ ] Confirm the exact competition objective/metric (not yet documented).
 - [ ] Clear or relocate the "Scratchpad for dummy runs" notebook section.
-- [ ] Decide the row-ordering assumption above and update
-      `NGramKernelProcessor` if it needs to sort/group first.
 
 ### `2025-brain-to-text`
 - [x] Expand `README.md`: Objective, Data, Methods Implemented (baseline
@@ -109,54 +90,20 @@ A project is portfolio-ready when it has:
       notebook).
 - [x] Move `config.py` / `__init__.py` under `src/`.
 - [x] Rename notebooks to `00_eda.ipynb` / `03_submission.ipynb`.
-- [x] Move the feature-selection/correlation-weighting logic out of
-      `00_eda.ipynb` into `src/features/selection.py`
-      (`select_top_features`, `top_correlated_pairs`); notebook now
-      imports it. Covered by `tests/test_selection.py` (7 tests, run and
-      passing). Also reconciled `src/config.py`, which had drifted out of
-      sync with the notebook's own (newer) inline Config cell — the
-      notebook now imports from `src/config.py` instead of duplicating it.
-- [x] Fixed a real bug found while reconciling the config: `MetaLabels.temporal`
-      had two adjacent string literals with no comma
-      (`"harvest_period" "growing_season_year"`), which Python silently
-      concatenates into one string instead of two list elements.
-- [ ] **Not fixed**: `all_inputs = list(set(ConfigLabels.x + NEW_COLS))`
-      references `NEW_COLS`, never defined anywhere — raises `NameError`
-      on a fresh run. Flagged inline in the notebook and in the README;
-      can't guess what it should contain.
-- [ ] Confirm whether two other flagged spots are bugs or intentional:
-      the rolling-window loop's `ascending=True` (keeps lowest-scoring
-      features) and `top_correlated_pairs`' reuse of `k` for both a
-      top-N count and a triu mask offset (see README "Flagged, not
-      changed").
+- [ ] Move the feature-selection/correlation-weighting logic out of
+      `00_eda.ipynb` into `src/features/`.
 - [ ] Add the intermediate feature-engineering/model-selection notebooks,
       or confirm the pipeline intentionally skips them.
 
 ### `2025-rsna-competition`
 - [x] Add `README.md` (BiomedCLIP zero-shot image-text ensemble approach).
 - [x] Move the notebook into `notebooks/00_eda.ipynb`.
-- [x] Split the notebook into `src/config.py` (paths/labels/DICOM tags),
-      `src/data/dataset.py` (`BrainAneurysmDataset` + `create_dataloaders`),
-      and `src/models/biomedclip.py` (zero-shot ensemble); the notebook
-      now only demonstrates them. Also dropped a dead `BrainDead()`
-      exploration cell — that class was never defined anywhere, so it
-      raised `NameError` on a fresh run.
-- [x] Add a baseline aneurysm-detection head (`src/models/detector.py`,
-      `AneurysmDetector3D`) — a starting 3D CNN architecture, not yet
-      trained against real data. Still open: combining its output with
-      BiomedCLIP's zero-shot scores into one ensemble prediction.
+- [ ] **Not done**: split the notebook's ensembling logic into
+      `src/models/` — it still mixes DICOM data prep and BiomedCLIP
+      scoring in one file, the weakest structure in the portfolio.
+- [ ] Add the actual aneurysm-detection head; current code stops at
+      zero-shot image–text similarity scoring.
 - [ ] Confirm the official evaluation metric.
-- [x] Add unit tests for `src/data/dataset.py`'s preprocessing helpers
-      (`tests/test_dataset.py`, 16 tests, run and passing) and for
-      `src/models/detector.py` (`tests/test_detector.py`, 6 tests
-      covering shapes/gradients/loss on synthetic tensors, run and
-      passing). Found and fixed a real cross-project test-isolation bug
-      in the process: every project's `src/` uses the same top-level
-      package name, so running two projects' tests in one `pytest`
-      process crashes with `ModuleNotFoundError` unless the previous
-      project's `src` is cleared from `sys.modules` first — now
-      documented in `projects/README.md` ("Testing Convention") and
-      handled in every `tests/*.py` file added so far.
 
 ### `2026-aimo3`
 - [x] Add `README.md` documenting the no-internet-at-submission
@@ -228,20 +175,15 @@ Papers, notebooks, or discussions referenced/borrowed from, with attribution.
 
 ## 3. Remaining work, in priority order
 
-1. Define `NEW_COLS` for `2025-helios-commodity` (see its section above)
-   so the rolling-window feature-selection loop actually runs, and
-   confirm the two other flagged-but-unfixed spots there.
-2. Fill in real **Results** once each project has a scored Kaggle
+1. Decide the per-project dependency convention (§0) — the one open
+   repo-level item.
+2. `2025-rsna-competition` — the only project whose notebook still mixes
+   data prep and modeling in one file; splitting it into `src/models/` is
+   the highest-value remaining structural fix.
+3. Fill in real **Results** once each project has a scored Kaggle
    submission (`2025-brain-to-text` and `2025-helios-commodity` are
    closest to a first submission).
-3. Finish the remaining stubbed functions: MAP model-building TODOs
-   (`child_role_play`, `add_contrast_responses`, `build_feature_pool`),
-   the SOM model for `2026-customer-analytics-with-dl`, and training
-   `2025-rsna-competition`'s `AneurysmDetector3D` against real data.
-4. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
-
-Three projects now have real, passing test suites (`tests/`):
-`2025-rsna-competition`, `2025-adaptive-immune-profiling`,
-`2025-helios-commodity` — 41 tests total, verified to run together in one
-`pytest` process. Extending this pattern to the remaining projects'
-`src/` modules as they get extracted is good practice but not urgent.
+4. Finish stubbed functions called out per project above
+   (`NGramKernelProcessor.__call__`, MAP model-building TODOs, the SOM
+   model, `01_map_model_building.ipynb`'s flagged improvements).
+5. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.

@@ -1,5 +1,0 @@
-# Extra dependencies beyond the root requirements.txt (see projects/README.md
-# "Dependency Convention"). Install with:
-#   pip install -r requirements.txt -r projects/2025-brain-to-text/requirements-extra.txt
-
-h5py==3.16.0
