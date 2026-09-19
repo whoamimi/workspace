@@ -67,3 +67,9 @@ class NGramKernelProcessorTests(unittest.TestCase):
         ngrams = processor(data)
 
         self.assertEqual(len(ngrams), 2)
+
+    def test_ngram_processor_raises_for_missing_column(self):
+        processor = NGramKernelProcessor(context_size=1, column="j_call")
+
+        with self.assertRaises(KeyError):
+            processor(FakeDataFrame({"v_call": ["TRBV5-1"]}))

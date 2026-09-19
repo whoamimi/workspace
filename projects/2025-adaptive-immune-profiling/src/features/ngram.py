@@ -28,7 +28,7 @@ class NGramKernelProcessor:
         if self.column not in data.columns:
             raise KeyError(f"{self.column!r} not in columns: {list(data.columns)}")
 
-        tokens = data[self.column].astype(str)
+        tokens = data[self.column].dropna().astype(str)
         self._build_vocab(tokens)
 
         ids = [self.tag2id[token] for token in tokens]
