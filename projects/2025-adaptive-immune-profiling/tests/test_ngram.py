@@ -85,3 +85,15 @@ class NGramKernelProcessorTests(unittest.TestCase):
         self.assertNotIn(None, processor.tag2id)
         ids = [processor.tag2id["TRBV5-1"], processor.tag2id["TRBV7-2"], processor.tag2id["TRBV5-1"]]
         self.assertEqual(ngrams, [([ids[0]], ids[1]), ([ids[1]], ids[2])])
+
+    def test_ngram_processor_preserves_non_string_token_types(self):
+        data = FakeDataFrame({"v_call": [101, 202, 101]})
+
+        processor = NGramKernelProcessor(context_size=1)
+
+        ngrams = processor(data)
+
+        self.assertIn(101, processor.tag2id)
+        self.assertEqual(processor.id2tag[processor.tag2id[101]], 101)
+        ids = [processor.tag2id[101], processor.tag2id[202], processor.tag2id[101]]
+        self.assertEqual(ngrams, [([ids[0]], ids[1]), ([ids[1]], ids[2])])
