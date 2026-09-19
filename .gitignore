@@ -1,3 +1,15 @@
+# Kaggle project data/model artifacts (see projects/README.md).
+# `*` matches one path segment, so these only match each project's
+# top-level data/models/submissions/reports dirs -- not e.g. src/models/.
+projects/*/data/raw/
+projects/*/data/interim/
+projects/*/data/processed/
+projects/*/models/
+projects/*/submissions/*.csv
+!projects/*/submissions/notes.csv
+projects/*/reports/figures/
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

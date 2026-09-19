@@ -5,6 +5,11 @@ postgrad-research / AI-engineer portfolio. It uses the directory template and
 `.gitignore` addons already defined in [`README.md`](./README.md) as the
 "definition of done" for every competition folder.
 
+**Status:** the documentation pass (READMEs, safe renames/moves) below is
+done for all 9 projects. What's left is deeper, per-project engineering
+work (splitting notebook internals into `src/`, implementing stubbed
+functions, producing scored results) — see the unchecked items.
+
 ## Definition of Done (per project)
 
 A project is portfolio-ready when it has:
@@ -28,126 +33,110 @@ A project is portfolio-ready when it has:
 
 ## 0. Repo-level (do first, unblocks everything below)
 
-- [ ] Add `data/`, `models/`, `submissions/*.csv` (keep `notes.csv`), and
-      `reports/figures/` to the root `.gitignore` — the addons are documented
-      in `projects/README.md` but not actually applied yet.
+- [x] Add `data/`, `models/`, `submissions/*.csv` (keep `notes.csv`), and
+      `reports/figures/` to the root `.gitignore` — scoped to
+      `projects/*/...` (one path segment) so it doesn't also match nested
+      `src/models/` code directories.
 - [ ] Decide and document one convention for per-project envs: always root
       `requirements.txt`, or allow a project-local `pyproject.toml` — several
       projects already assume Kaggle-kernel-installed deps with no manifest.
-- [ ] Add a short **status table** to `projects/README.md` (Draft / In
-      Progress / Submitted / Written Up) so the portfolio index reflects
-      reality — currently the README only documents the *ideal* structure,
-      not the actual state of each competition folder.
-- [ ] Remove or `.gitignore` the stray `.DS_Store` files (`projects/`,
-      repo root) and add `.DS_Store` to `.gitignore` if not already covered.
+- [x] Add a short **status table** to `projects/README.md` (Draft / In
+      Progress / Submitted / Written Up).
+- [x] Remove and `.gitignore` the stray `.DS_Store` files.
 
 ## 1. Per-project checklist
 
-### `2025-adaptive-immune-profiling` — Stub
-- [ ] Add `README.md` (competition brief + objective are currently only
-      implied by the notebook title).
-- [ ] Move `ngram.py` into `src/features/` and import it from the notebook
-      instead of keeping logic loose at the project root.
-- [ ] Rename `airr_exploration.ipynb` → `notebooks/00_eda.ipynb`.
-- [ ] Document current status: EDA only, no model/submission yet — say so
-      explicitly rather than leaving the reader to infer it.
+### `2025-adaptive-immune-profiling`
+- [x] Add `README.md`.
+- [x] Move `ngram.py` into `src/features/`; fixed a real `NameError` bug
+      (`pd.DataFrame` type hint used without importing pandas).
+- [x] Rename notebook to `notebooks/00_eda.ipynb`.
+- [x] Document current status (EDA/scaffolding only) in the README.
+- [ ] Implement `NGramKernelProcessor.__call__` (currently `pass`).
+- [ ] Confirm the exact competition objective/metric (not yet documented).
+- [ ] Clear or relocate the "Scratchpad for dummy runs" notebook section.
 
-### `2025-brain-to-text` — Most complete, needs write-up
-- [ ] Expand `README.md` beyond the setup steps: add **Objective**
-      (task/metric), **Data**, **Methods Implemented** (which pretrained
-      models were ensembled and why), **Results** (leaderboard score if
-      any), and **Extensions**.
-- [ ] Rename `notebooks/submission.ipynb` → `notebooks/03_submission.ipynb`
-      and add a `01_feature_engineering` / `02_model_selection` step, or
-      note in the README why the pipeline collapses to eda → submission.
-- [ ] Confirm `src/main.py` and `src/utils.py` have module-level docstrings
-      or a short "what lives here" note, and that `setup.sh` is referenced
-      from the README's Setup section.
+### `2025-brain-to-text`
+- [x] Expand `README.md`: Objective, Data, Methods Implemented (baseline
+      RNN + n-gram/LM rescoring ensemble), Evaluation (WER), Results
+      placeholder, Extensions, References.
+- [x] Rename notebooks to `00_eda.ipynb` / `03_submission.ipynb`.
+- [ ] Add the `01_feature_engineering` / `02_model_selection` step, or
+      confirm the pipeline intentionally collapses eda → submission.
+- [ ] Add module-level docstrings to `src/main.py` / `src/utils.py`.
 
-### `2025-chart-students-map` — Needs README + src split
-- [ ] Add `README.md`: this is the Kaggle "Map Charting Student Math
-      Misunderstandings" competition — state the objective (predict
-      `Category:Misconception` label from student explanations), data, and
-      evaluation metric explicitly (currently only inferable from
-      `const.json`'s label definitions).
-- [ ] Explain `const.json` in the README (label taxonomy) or move it under
-      `src/config/` with a docstring.
-- [ ] Notebooks are already well-numbered (`00`, `01`, `02`) — keep this
-      pattern, just add `src/` for any reusable preprocessing/model code
-      currently inlined in `01_map_model_building.ipynb`.
-- [ ] Record final result in the README (`02_map_final.ipynb` output).
+### `2025-chart-students-map`
+- [x] Add `README.md` documenting the MAP misconception taxonomy and the
+      two-stage (correctness + misconception) model approach.
+- [x] Explain `const.json` in the README.
+- [ ] Extract the two-stage model classes and data processors out of
+      `01_map_model_building.ipynb` / `02_map_final.ipynb` into `src/`.
+- [ ] Finish the stubbed improvements in `01_map_model_building.ipynb`
+      (`child_role_play`, `add_contrast_responses`, `build_feature_pool`).
+- [ ] Record the final scored result once submitted.
 
-### `2025-hedge-fund-forecasting` — Draft, has TODO buried in notebook
-- [ ] Extract the planning checklist currently living as a markdown cell in
-      `exploratory_analytics.ipynb` into the project `README.md` under
-      **Methods / Next Steps** — a notebook cell is not discoverable as
-      project documentation.
-- [ ] Resolve `archived.ipynb`: either delete it (git history preserves it)
-      or move it to `notebooks/_archive/` with a one-line note on why it was
-      abandoned. Don't leave "archived" work as a top-level sibling to
-      active work.
-- [ ] Add `README.md` with competition brief/objective/evaluation metric —
-      none of this is documented outside notebook comments today.
-- [ ] Rename `submission.ipynb` → `notebooks/03_submission.ipynb`.
+### `2025-hedge-fund-forecasting`
+- [x] Extract the notebook's TODO checklist into `README.md` under
+      Extensions.
+- [x] Move `archived.ipynb` (duplicate draft, identical TODO list to the
+      EDA notebook) into `notebooks/_archive/`.
+- [x] Add `README.md`.
+- [x] Rename notebooks to `00_eda.ipynb` / `03_submission.ipynb`.
+- [ ] Consolidate config/feature logic shared between the EDA and
+      submission notebooks into `src/` instead of duplicating it.
 
-### `2025-helios-commodity` — Good structure, missing README
-- [ ] Add `README.md` — objective and evaluation metric ("Climate-Futures
-      Correlation Score") already exist as a markdown cell in
-      `notebooks/eda.ipynb`; promote that to the README's **Brief /
-      Objective / Evaluation** sections.
-- [ ] Move `config.py` under `src/config.py` (currently at project root,
-      inconsistent with the template's `src/config.py` convention used
-      elsewhere).
-- [ ] Rename `notebooks/eda.ipynb` → `00_eda.ipynb`,
-      `notebooks/submission.ipynb` → `03_submission.ipynb`; add the
-      intermediate feature/model steps or note their absence.
+### `2025-helios-commodity`
+- [x] Add `README.md` (CFCS objective/evaluation promoted from the
+      notebook).
+- [x] Move `config.py` / `__init__.py` under `src/`.
+- [x] Rename notebooks to `00_eda.ipynb` / `03_submission.ipynb`.
+- [ ] Move the feature-selection/correlation-weighting logic out of
+      `00_eda.ipynb` into `src/features/`.
+- [ ] Add the intermediate feature-engineering/model-selection notebooks,
+      or confirm the pipeline intentionally skips them.
 
-### `2025-rsna-competition` — Stub, single notebook
-- [ ] Add `README.md`: objective (intracranial aneurysm detection), data
-      modality (imaging + metadata), evaluation metric, and current status.
-- [ ] Split `rsna-ensemble-model.ipynb` into `notebooks/00_eda.ipynb` +
-      `src/models/` for the ensembling logic — a single monolithic notebook
-      mixing data prep and ensembling is the weakest structure in the
-      portfolio right now.
+### `2025-rsna-competition`
+- [x] Add `README.md` (BiomedCLIP zero-shot image-text ensemble approach).
+- [x] Move the notebook into `notebooks/00_eda.ipynb`.
+- [ ] **Not done**: split the notebook's ensembling logic into
+      `src/models/` — it still mixes DICOM data prep and BiomedCLIP
+      scoring in one file, the weakest structure in the portfolio.
+- [ ] Add the actual aneurysm-detection head; current code stops at
+      zero-shot image–text similarity scoring.
+- [ ] Confirm the official evaluation metric.
 
-### `2026-aimo3` — Needs consolidation
-- [ ] Add `README.md`: objective (AI Mathematical Olympiad), constraint that
-      matters most for methods (**no internet access at submission time**,
-      already noted inline in `aimo3-utility-notebook-dependency-install-1-2`)
-      — this constraint should be a first-class README note since it drives
-      the whole dependency-bundling approach.
-- [ ] Rename for a linear read order: `00_dependency_setup.ipynb` (from
-      `aimo3-utility-notebook-dependency-install-1-2.ipynb`),
-      `01_eda_or_baseline.ipynb` (from `aimo-3-notebook.ipynb`),
-      `02_submission.ipynb`.
-- [ ] `example_submission.ipynb` has a single cell — confirm whether it's a
-      Kaggle-provided template (mark clearly as reference/not-authored) or
-      delete if superseded.
-- [ ] Move `aimo3_unsloth_submission.py` into `src/models/` and document the
-      Unsloth fine-tuning approach in the README's **Methods** section.
+### `2026-aimo3`
+- [x] Add `README.md` documenting the no-internet-at-submission
+      constraint and the Unsloth/QLoRA + vLLM pipeline.
+- [x] Rename notebooks to `00_dependency_setup.ipynb` / `01_baseline.ipynb`;
+      marked `example_submission.ipynb` as
+      `notebooks/reference_example_submission.ipynb` (Kaggle-provided
+      template, not authored work).
+- [x] Move `aimo3_unsloth_submission.py` into `src/models/`.
+- [ ] Split the fine-tune (Part 1) and inference (Part 2) halves of
+      `src/models/aimo3_unsloth_submission.py` into separate entry points.
+- [ ] Confirm whether `01_baseline.ipynb` is superseded by the Unsloth
+      pipeline or still an active fallback/ensemble member.
 
-### `2026-customer-analytics-with-dl` — Good objective writeup, needs structure
-- [ ] Promote the notebook's existing **objective / domain background**
-      markdown cell into `README.md` verbatim — it's already
-      portfolio-quality prose, just in the wrong place.
+### `2026-customer-analytics-with-dl`
+- [x] Promote the notebook's objective/domain-background markdown into
+      `README.md`.
+- [x] Add an Evaluation section (silhouette score today; flagged that
+      segment-quality assessment beyond that isn't implemented).
+- [ ] Implement the SOM model referenced by the project/notebook name —
+      not yet in the notebook (K-Means is the only clustering implemented).
 - [ ] Split `customer_segments_som.ipynb` into `00_eda.ipynb` +
-      `src/models/som.py` (or similar) once the SOM/clustering approach
-      stabilizes; note in README which of PCA/t-SNE/UMAP/SOM were actually
-      used vs. considered.
-- [ ] Add **Evaluation** section: how is segment quality assessed
-      (silhouette score, business interpretability, label agreement)?
+      `src/models/` once the approach stabilizes.
+- [ ] Scale beyond the 100-row embedding sample.
 
-### `2026-march-madness-ncaa` — Draft, mixes own work with references
-- [ ] Add `README.md` with objective (bracket/win-probability prediction),
-      data (historical NCAA results, Elo/seed features), and evaluation
-      metric (Kaggle's log-loss).
-- [ ] Clearly label `references/*.ipynb` as **external reference
-      notebooks** (not authored work) in the README — right now they sit
-      indistinguishable from own analysis; consider a `references/README.md`
-      with source links/attribution.
-- [ ] Rename `exploratory_notebook.ipynb` → `00_eda.ipynb`; the "Processing
-      Draft 2" section heading signals unresolved iteration — resolve into a
-      single canonical EDA notebook before portfolio write-up.
+### `2026-march-madness-ncaa`
+- [x] Add `README.md` (rank-difference logit heuristic, Massey features).
+- [x] Add `references/README.md` attributing the two external
+      XGBoost/Elo notebooks (kernel URLs still unknown — see TODO there).
+- [x] Rename notebook to `00_eda.ipynb`.
+- [ ] Resolve "Processing Draft 2" into a single canonical EDA notebook.
+- [ ] Move Massey/rank-difference feature engineering into `src/features/`.
+- [ ] Back-fill the original kernel URLs in `references/README.md`.
 
 ---
 
@@ -184,15 +173,17 @@ Concrete next steps if resumed — not aspirational, but a scoped backlog.
 Papers, notebooks, or discussions referenced/borrowed from, with attribution.
 ```
 
-## 3. Suggested execution order
+## 3. Remaining work, in priority order
 
-1. Repo-level `.gitignore` + status table (§0) — one PR, unblocks everything.
-2. `2025-brain-to-text` and `2025-helios-commodity` — closest to done; write
-   these up first for quick portfolio wins.
-3. `2025-chart-students-map` and `2026-customer-analytics-with-dl` — already
-   have strong objective write-ups buried in notebooks; promoting them to
-   READMEs is low effort, high payoff.
-4. Remaining stubs (`2025-adaptive-immune-profiling`, `2025-rsna-competition`,
-   `2025-hedge-fund-forecasting`, `2026-aimo3`, `2026-march-madness-ncaa`) —
-   decide per project whether to finish, or document as "paused" with a
-   clear objective/status so it still reads as intentional in a portfolio.
+1. Decide the per-project dependency convention (§0) — the one open
+   repo-level item.
+2. `2025-rsna-competition` — the only project whose notebook still mixes
+   data prep and modeling in one file; splitting it into `src/models/` is
+   the highest-value remaining structural fix.
+3. Fill in real **Results** once each project has a scored Kaggle
+   submission (`2025-brain-to-text` and `2025-helios-commodity` are
+   closest to a first submission).
+4. Finish stubbed functions called out per project above
+   (`NGramKernelProcessor.__call__`, MAP model-building TODOs, the SOM
+   model, `01_map_model_building.ipynb`'s flagged improvements).
+5. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
