@@ -69,6 +69,30 @@ data/processed/
 models/
 ```
 
+## Dependency Convention
+
+The root [`requirements.txt`](../requirements.txt) is a full freeze of the
+shared workspace environment (Jupyter, numpy/pandas/scipy/scikit-learn,
+torch, transformers, sentence-transformers, etc.) — install it first for
+any project.
+
+A project adds its **own** `requirements-extra.txt` only when it needs
+packages beyond that base (e.g. `2025-rsna-competition/requirements-extra.txt`
+for `pydicom`/`nibabel`/`open-clip-torch`/`albumentations`). Install it
+alongside the root file:
+
+```bash
+pip install -r requirements.txt -r projects/<project>/requirements-extra.txt
+```
+
+Don't use a project-local `pyproject.toml` unless a project needs a fully
+separate, isolated environment (dependency conflicts, a different Python
+version). `2026-aimo3` is the one exception in this repo: its Unsloth/vLLM
+stack is deliberately installed by `notebooks/00_dependency_setup.ipynb`
+itself, not a static requirements file, because the competition kernel has
+no internet access at submission time and needs specific packages
+uninstalled first to avoid version conflicts — see that project's README.
+
 ## Project Status
 
 Tracks actual state against the [portfolio cleanup checklist](./TODO.md).

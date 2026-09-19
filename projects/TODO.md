@@ -37,9 +37,20 @@ A project is portfolio-ready when it has:
       `reports/figures/` to the root `.gitignore` — scoped to
       `projects/*/...` (one path segment) so it doesn't also match nested
       `src/models/` code directories.
-- [ ] Decide and document one convention for per-project envs: always root
-      `requirements.txt`, or allow a project-local `pyproject.toml` — several
-      projects already assume Kaggle-kernel-installed deps with no manifest.
+- [x] Decide and document one convention for per-project envs: root
+      `requirements.txt` (full environment freeze) is the base for every
+      project; a project adds its own `requirements-extra.txt` only for
+      packages beyond that base. Documented in `projects/README.md`
+      ("Dependency Convention"). Added `requirements-extra.txt` for
+      `2025-brain-to-text` (h5py), `2025-hedge-fund-forecasting`
+      (lightgbm, polars), `2025-rsna-competition` (pydicom, nibabel,
+      open-clip-torch, albumentations), and `2026-march-madness-ncaa`
+      (catboost, lightgbm, xgboost — only needed for `references/`).
+      Also added `matplotlib`/`seaborn` to the root freeze since half the
+      projects used them without either being pinned anywhere.
+      `2026-aimo3` is the documented exception: its deps are installed by
+      `notebooks/00_dependency_setup.ipynb` itself, not a requirements
+      file, due to the no-internet-at-submission constraint.
 - [x] Add a short **status table** to `projects/README.md` (Draft / In
       Progress / Submitted / Written Up).
 - [x] Remove and `.gitignore` the stray `.DS_Store` files.
@@ -179,16 +190,13 @@ Papers, notebooks, or discussions referenced/borrowed from, with attribution.
 
 ## 3. Remaining work, in priority order
 
-1. Decide the per-project dependency convention (§0) — the one open
-   repo-level item.
-2. Fill in real **Results** once each project has a scored Kaggle
+1. Fill in real **Results** once each project has a scored Kaggle
    submission (`2025-brain-to-text` and `2025-helios-commodity` are
    closest to a first submission).
-3. Finish stubbed functions called out per project above
+2. Finish stubbed functions called out per project above
    (`NGramKernelProcessor.__call__`, MAP model-building TODOs, the SOM
    model, `01_map_model_building.ipynb`'s flagged improvements,
    `2025-rsna-competition`'s aneurysm-detection head).
-4. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
-5. Add unit tests for the now-standalone `src/` modules (rsna's
-   preprocessing helpers, helios's feature selection, etc.) once each
-   project has a test runner convention.
+3. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
+4. Add unit tests for the now-standalone `src/` modules (rsna's
+   preprocessing helpers, helios's feature selection, etc.).
