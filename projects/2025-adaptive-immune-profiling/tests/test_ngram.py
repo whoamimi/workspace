@@ -74,3 +74,14 @@ class NGramKernelProcessorTests(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             processor(FakeDataFrame({"v_call": ["TRBV5-1"]}))
+
+    def test_ngram_processor_skips_null_tokens(self):
+        data = FakeDataFrame({"v_call": ["TRBV5-1", None, "TRBV7-2", "TRBV5-1"]})
+
+        processor = NGramKernelProcessor(context_size=1)
+
+        ngrams = processor(data)
+
+        self.assertNotIn(None, processor.tag2id)
+        ids = [processor.tag2id["TRBV5-1"], processor.tag2id["TRBV7-2"], processor.tag2id["TRBV5-1"]]
+        self.assertEqual(ngrams, [([ids[0]], ids[1]), ([ids[1]], ids[2])])
