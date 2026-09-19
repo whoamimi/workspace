@@ -109,8 +109,26 @@ A project is portfolio-ready when it has:
       notebook).
 - [x] Move `config.py` / `__init__.py` under `src/`.
 - [x] Rename notebooks to `00_eda.ipynb` / `03_submission.ipynb`.
-- [ ] Move the feature-selection/correlation-weighting logic out of
-      `00_eda.ipynb` into `src/features/`.
+- [x] Move the feature-selection/correlation-weighting logic out of
+      `00_eda.ipynb` into `src/features/selection.py`
+      (`select_top_features`, `top_correlated_pairs`); notebook now
+      imports it. Covered by `tests/test_selection.py` (7 tests, run and
+      passing). Also reconciled `src/config.py`, which had drifted out of
+      sync with the notebook's own (newer) inline Config cell — the
+      notebook now imports from `src/config.py` instead of duplicating it.
+- [x] Fixed a real bug found while reconciling the config: `MetaLabels.temporal`
+      had two adjacent string literals with no comma
+      (`"harvest_period" "growing_season_year"`), which Python silently
+      concatenates into one string instead of two list elements.
+- [ ] **Not fixed**: `all_inputs = list(set(ConfigLabels.x + NEW_COLS))`
+      references `NEW_COLS`, never defined anywhere — raises `NameError`
+      on a fresh run. Flagged inline in the notebook and in the README;
+      can't guess what it should contain.
+- [ ] Confirm whether two other flagged spots are bugs or intentional:
+      the rolling-window loop's `ascending=True` (keeps lowest-scoring
+      features) and `top_correlated_pairs`' reuse of `k` for both a
+      top-N count and a triu mask offset (see README "Flagged, not
+      changed").
 - [ ] Add the intermediate feature-engineering/model-selection notebooks,
       or confirm the pipeline intentionally skips them.
 
@@ -210,15 +228,20 @@ Papers, notebooks, or discussions referenced/borrowed from, with attribution.
 
 ## 3. Remaining work, in priority order
 
-1. Fill in real **Results** once each project has a scored Kaggle
+1. Define `NEW_COLS` for `2025-helios-commodity` (see its section above)
+   so the rolling-window feature-selection loop actually runs, and
+   confirm the two other flagged-but-unfixed spots there.
+2. Fill in real **Results** once each project has a scored Kaggle
    submission (`2025-brain-to-text` and `2025-helios-commodity` are
    closest to a first submission).
-2. Finish the remaining stubbed functions: MAP model-building TODOs
+3. Finish the remaining stubbed functions: MAP model-building TODOs
    (`child_role_play`, `add_contrast_responses`, `build_feature_pool`),
    the SOM model for `2026-customer-analytics-with-dl`, and training
    `2025-rsna-competition`'s `AneurysmDetector3D` against real data.
-3. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
-4. Add unit tests for the remaining standalone `src/` modules (helios's
-   feature selection once it's extracted to `src/features/`, etc.) —
-   `2025-rsna-competition` and `2025-adaptive-immune-profiling` already
-   have real, passing test suites (`tests/`).
+4. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
+
+Three projects now have real, passing test suites (`tests/`):
+`2025-rsna-competition`, `2025-adaptive-immune-profiling`,
+`2025-helios-commodity` — 41 tests total, verified to run together in one
+`pytest` process. Extending this pattern to the remaining projects'
+`src/` modules as they get extracted is good practice but not urgent.

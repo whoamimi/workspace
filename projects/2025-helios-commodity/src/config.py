@@ -1,5 +1,9 @@
+"""Paths and column-group config for the Helios Corn Climate Challenge.
 
-# WORKSPACE DIR
+Kept in sync with notebooks/00_eda.ipynb's "Config" cell, which imports
+from here rather than redefining these classes inline.
+"""
+
 from pathlib import Path
 
 INPUT_DIR = Path("/kaggle/input")
@@ -7,13 +11,14 @@ INPUT_PATH = INPUT_DIR / "forecasting-the-future-the-helios-corn-climate-challen
 OUTPUT_DIR = Path("/kaggle/working")
 OUTPUT_PATH = OUTPUT_DIR / "submission.csv"
 
+
 class ClimateLabels:
-    """ Climate Weather Feature Signals output from model and not the actual or true values during the insighted event. """
-    heat_stress = ['climate_risk_cnt_locations_heat_stress_risk_low','climate_risk_cnt_locations_heat_stress_risk_medium','climate_risk_cnt_locations_heat_stress_risk_high']
-    cold_stress = ['climate_risk_cnt_locations_unseasonably_cold_risk_low', 'climate_risk_cnt_locations_unseasonably_cold_risk_medium','climate_risk_cnt_locations_unseasonably_cold_risk_high']
-    precip_stress = ['climate_risk_cnt_locations_excess_precip_risk_low','climate_risk_cnt_locations_excess_precip_risk_medium',
+    """Climate Weather Feature Signals output from model and not the actual or true values during the insighted event."""
+    heat_stress = ['climate_risk_cnt_locations_heat_stress_risk_low', 'climate_risk_cnt_locations_heat_stress_risk_medium', 'climate_risk_cnt_locations_heat_stress_risk_high']
+    cold_stress = ['climate_risk_cnt_locations_unseasonably_cold_risk_low', 'climate_risk_cnt_locations_unseasonably_cold_risk_medium', 'climate_risk_cnt_locations_unseasonably_cold_risk_high']
+    precip_stress = ['climate_risk_cnt_locations_excess_precip_risk_low', 'climate_risk_cnt_locations_excess_precip_risk_medium',
     'climate_risk_cnt_locations_excess_precip_risk_high']
-    drought_stress = ['climate_risk_cnt_locations_drought_risk_low', 'climate_risk_cnt_locations_drought_risk_medium','climate_risk_cnt_locations_drought_risk_high']
+    drought_stress = ['climate_risk_cnt_locations_drought_risk_low', 'climate_risk_cnt_locations_drought_risk_medium', 'climate_risk_cnt_locations_drought_risk_high']
     columns = heat_stress + cold_stress + precip_stress + drought_stress
     extreme_signals = [
         'climate_risk_cnt_locations_heat_stress_risk_high',
@@ -33,6 +38,7 @@ class ClimateLabels:
         'climate_risk_cnt_locations_excess_precip_risk_low',
         'climate_risk_cnt_locations_drought_risk_low',
     ]
+
 
 class FutureLabels:
     # Commodity Furture Pricing Signals
@@ -62,6 +68,7 @@ class FutureLabels:
         'futures_zc_zs_ratio'
     ]
 
+
 class MetaLabels:
     identifiers = [
         'ID',
@@ -71,9 +78,27 @@ class MetaLabels:
         'region_name',
         'region_id',
     ]
-    temporal = ["harvest_period" "growing_season_year", "date_on"]
+    # NOTE: was `["harvest_period" "growing_season_year", "date_on"]` -- two
+    # adjacent string literals with no comma silently concatenate into one
+    # string ("harvest_periodgrowing_season_year") instead of two list
+    # elements. Fixed here; this bug was present in the notebook's original
+    # inline Config cell too.
+    temporal = ["harvest_period", "growing_season_year", "date_on"]
     columns = identifiers + temporal
     extra = ['date_on_year', 'date_on_month', 'date_on_year_month']
+
+
+class ConfigLabels:
+    identifiers = ["country_name", "region_name", "harvest_period"]
+    futures = FutureLabels.measures
+    climate = ClimateLabels
+    meta = ["percent_country_production"]
+    dt = ["date_on"]
+    columns = identifiers + futures + climate.columns + meta
+    x = ["harvest_period"] + climate.columns
+    y = futures
+    target = ["futures_zc1_vol_60"]
+
 
 # ALL FUTURE (MAIN) DATASET COLUMNS
 FT_COLS = MetaLabels.columns + MetaLabels.extra
@@ -96,5 +121,3 @@ SUBMISSION_COLS = [
     "country_name",
     "region_name"
 ]
-
-list(INPUT_PATH.glob("*.csv"))
