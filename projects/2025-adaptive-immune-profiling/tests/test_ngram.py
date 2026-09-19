@@ -97,3 +97,13 @@ class NGramKernelProcessorTests(unittest.TestCase):
         self.assertEqual(processor.id2tag[processor.tag2id[101]], 101)
         ids = [processor.tag2id[101], processor.tag2id[202], processor.tag2id[101]]
         self.assertEqual(ngrams, [([ids[0]], ids[1]), ([ids[1]], ids[2])])
+
+    def test_ngram_processor_rebuilds_vocab_on_each_call(self):
+        processor = NGramKernelProcessor(context_size=1)
+
+        processor(FakeDataFrame({"v_call": ["TRBV5-1", "TRBV7-2"]}))
+        ngrams = processor(FakeDataFrame({"v_call": ["TRBV9-1", "TRBV10-1"]}))
+
+        self.assertEqual(set(processor.tag2id), {"TRBV9-1", "TRBV10-1"})
+        ids = [processor.tag2id["TRBV9-1"], processor.tag2id["TRBV10-1"]]
+        self.assertEqual(ngrams, [([ids[0]], ids[1])])

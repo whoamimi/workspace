@@ -25,6 +25,10 @@ class NGramKernelProcessor:
                 self.id2tag[idx] = tag
 
     def __call__(self, data: pd.DataFrame):
+        self.ngrams = []
+        self.tag2id = {}
+        self.id2tag = {}
+
         if self.column not in data.columns:
             raise KeyError(f"{self.column!r} not in columns: {list(data.columns)}")
 
