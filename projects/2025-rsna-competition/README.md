@@ -21,21 +21,14 @@ description) modalities via a CLIP-style vision-language model.
 
 ## Methods Implemented
 
-1. **Image/metadata preparation** (`src/data/dataset.py`) — DICOM loading,
-   CT/MR-specific normalization, volume resizing/caching, and a
-   `BrainAneurysmDataset` + `create_dataloaders` pipeline with
-   segmentation/localizer support.
-2. **Zero-shot vision-language classification** (`src/models/biomedclip.py`)
-   — [BiomedCLIP
+1. **Image/metadata preparation** — DICOM loading, volume reshaping, and a
+   v2 data loader/processor pipeline.
+2. **Zero-shot vision-language classification** — [BiomedCLIP
    (`microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224`)](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224)
    via `open_clip`: encode each image slice and a set of modality-prompt
    texts (`"This is a Brain scan of <modality>"`), then score
    image–text similarity (`run_inference`) as an ensemble signal alongside
    the imaging model.
-
-`notebooks/00_eda.ipynb` now only demonstrates these two modules end to
-end; the loading/normalization and zero-shot scoring logic itself lives in
-`src/`, importable and testable independent of the notebook.
 
 ## Evaluation
 
@@ -50,12 +43,13 @@ detector or submission yet._
 
 ## Extensions
 
+- Split this single notebook into `notebooks/00_eda.ipynb` (DICOM
+  loading/preprocessing) + `src/models/` (BiomedCLIP ensemble logic) — it
+  currently mixes both stages in one file, the weakest structure in the
+  portfolio.
 - Add the actual aneurysm-detection head/ensembling step; current code
   stops at zero-shot image–text similarity scoring.
 - Document the official evaluation metric and add local validation.
-- Add unit tests for `src/data/dataset.py`'s preprocessing helpers
-  (`_ct_mr_normalize`, `_resize_zyx`, `_select_indices`) now that they're
-  standalone functions.
 
 ## References
 

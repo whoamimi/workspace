@@ -98,16 +98,12 @@ A project is portfolio-ready when it has:
 ### `2025-rsna-competition`
 - [x] Add `README.md` (BiomedCLIP zero-shot image-text ensemble approach).
 - [x] Move the notebook into `notebooks/00_eda.ipynb`.
-- [x] Split the notebook into `src/config.py` (paths/labels/DICOM tags),
-      `src/data/dataset.py` (`BrainAneurysmDataset` + `create_dataloaders`),
-      and `src/models/biomedclip.py` (zero-shot ensemble); the notebook
-      now only demonstrates them. Also dropped a dead `BrainDead()`
-      exploration cell — that class was never defined anywhere, so it
-      raised `NameError` on a fresh run.
+- [ ] **Not done**: split the notebook's ensembling logic into
+      `src/models/` — it still mixes DICOM data prep and BiomedCLIP
+      scoring in one file, the weakest structure in the portfolio.
 - [ ] Add the actual aneurysm-detection head; current code stops at
       zero-shot image–text similarity scoring.
 - [ ] Confirm the official evaluation metric.
-- [ ] Add unit tests for `src/data/dataset.py`'s preprocessing helpers.
 
 ### `2026-aimo3`
 - [x] Add `README.md` documenting the no-internet-at-submission
@@ -181,14 +177,13 @@ Papers, notebooks, or discussions referenced/borrowed from, with attribution.
 
 1. Decide the per-project dependency convention (§0) — the one open
    repo-level item.
-2. Fill in real **Results** once each project has a scored Kaggle
+2. `2025-rsna-competition` — the only project whose notebook still mixes
+   data prep and modeling in one file; splitting it into `src/models/` is
+   the highest-value remaining structural fix.
+3. Fill in real **Results** once each project has a scored Kaggle
    submission (`2025-brain-to-text` and `2025-helios-commodity` are
    closest to a first submission).
-3. Finish stubbed functions called out per project above
+4. Finish stubbed functions called out per project above
    (`NGramKernelProcessor.__call__`, MAP model-building TODOs, the SOM
-   model, `01_map_model_building.ipynb`'s flagged improvements,
-   `2025-rsna-competition`'s aneurysm-detection head).
-4. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
-5. Add unit tests for the now-standalone `src/` modules (rsna's
-   preprocessing helpers, helios's feature selection, etc.) once each
-   project has a test runner convention.
+   model, `01_map_model_building.ipynb`'s flagged improvements).
+5. Back-fill `references/README.md` kernel URLs for march-madness-ncaa.
