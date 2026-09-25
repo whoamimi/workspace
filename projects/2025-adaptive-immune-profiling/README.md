@@ -1,24 +1,16 @@
 # Adaptive Immune Profiling Challenge 2025
 
-## Competition Brief
+## **Overview**
 
-Kaggle competition on Adaptive Immune Receptor Repertoire (AIRR) data —
-exploration of immune receptor sequencing data (V/J gene segment usage,
-CDR3 sequences).
+Kaggle competition [Adaptive Immune Receptor Repertoire (AIRR)](https://www.kaggle.com/competitions/adaptive-immune-profiling-challenge-2025/overview) problem scopes the repertoire classification methods with immune receptor sequencing data, specifically V/J gene segment usage and CDR3 sequences.
 
-## Objective
-
-_Not yet documented — infer and state the exact prediction target (e.g.
-V/J gene usage prediction, repertoire classification) from the
-competition page once work resumes._
-
-## Data
+#### Data
 
 AIRR-format immune repertoire sequencing data. Loaded and previewed in
 `notebooks/00_eda.ipynb` ("Data Loader" / "Quick look" sections); no
 column schema documented yet.
 
-## Methods Implemented
+## **Methods Implemented**
 
 - **Embedding generation** — batched embedding computation with GPU
   utilization monitoring (`get_embeddings_batched`).
@@ -28,13 +20,10 @@ column schema documented yet.
   log-softmax over V/J segment vocabulary `vj_size`), for context-window
   based V/J gene usage prediction.
 
-## Evaluation
+## **Results**
 
-_Not yet documented — record the official competition metric here._
-
-## Results
-
-_EDA and utility scaffolding only — no trained model or submission yet._
+**No evaluation made yet**
+**No conclusion or results yet**
 
 ## Extensions
 
@@ -45,8 +34,4 @@ _EDA and utility scaffolding only — no trained model or submission yet._
   "Epilogue" section into `src/utils/`.
 - Clear out `notebooks/00_eda.ipynb`'s "Scratchpad for dummy runs" section
   before treating this as portfolio-ready, or move it to a clearly marked
-  scratch notebook.
-
-## References
-
-None yet.
+  scratch notebook

@@ -1,12 +1,12 @@
 # Map Charting Student Math Misunderstandings
 
-## Competition Brief
+## Overview
 
 Kaggle competition: *MAP — Charting Student Math Misunderstandings*.
 Predict the category and (where applicable) misconception label for a
 student's short written explanation of a math answer.
 
-## Objective
+#### Objective
 
 Given a math question, the student's selected/typed answer, and their
 free-text explanation, classify the response into one of:
@@ -19,7 +19,7 @@ free-text explanation, classify the response into one of:
   taxonomy, e.g. `Adding_across`, `Additive`, `Base_rate`, `Denominator-only_change`).
 - `False_Neither` — incorrect, with no identifiable misconception pattern.
 
-## Data
+#### Data
 
 Kaggle-provided train/test tables of `(QuestionText, MC_Answer,
 StudentExplanation)` rows labeled with the category+misconception taxonomy
@@ -39,16 +39,9 @@ Two-stage pipeline (`02_map_final.ipynb`, "Phi-Instruct + SentenceTransformer"):
    (`01_map_model_building.ipynb` "Sentence Embeddings Treehouse").
 3. Outputs are combined into the final `Category:Misconception` label.
 
-## Evaluation
+## Results & Evaluation
 
-Official Kaggle metric for this competition (Mean F1 / MAP@k over the
-label taxonomy — confirm exact metric on the competition page and record
-here).
-
-## Results
-
-_Leaderboard score not yet recorded — update after `02_map_final.ipynb`
-produces a scored submission._
+**Not available**
 
 ## Extensions
 
@@ -60,8 +53,3 @@ produces a scored submission._
   `02_map_final.ipynb` share code instead of redefining it per notebook.
 - Add a `03_submission.ipynb` (or confirm `02_map_final.ipynb` is that
   step and rename it).
-
-## References
-
-None yet — add any Kaggle discussion posts or papers referenced for the
-misconception taxonomy or modeling approach.

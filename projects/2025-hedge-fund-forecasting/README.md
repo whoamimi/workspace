@@ -1,19 +1,19 @@
 # Hedge Fund / Time-Series Forecasting
 
-## Competition Brief
+## Overview
 
 Kaggle time-series prediction competition (`ts-prediction` dataset:
 `train.parquet` / `test.parquet`) — forecasting a financial/hedge-fund
 target across multiple prediction horizons, grouped by an entity `ID` and
 `code`/`sub_code`/`sub_categories` fields.
 
-## Objective
+#### Objective
 
 Predict the target variable(s) per `ID` across the available forecast
 horizons. Exact target definition and horizon set to be confirmed against
 the competition page.
 
-## Data
+#### Data
 
 `ts-prediction/train.parquet` and `test.parquet`: `ID`-grouped rows with
 `code`/`sub_code`/`sub_categories` fields and multiple horizon columns.
@@ -27,14 +27,9 @@ the competition page.
   `submission.ipynb`): config → utils → feature processors → LGBM
   training → predictions — this is the more complete, current approach.
 
-## Evaluation
-
-_Not yet documented — record the official competition metric here._
-
 ## Results
 
-_Not yet recorded — update after a scored submission from the LGBM
-pipeline._
+*Not available*
 
 ## Extensions (carried over from the notebook's own TODO list)
 
@@ -46,7 +41,3 @@ pipeline._
 - Consolidate `00_eda.ipynb` and `03_submission.ipynb` so feature/config
   logic isn't duplicated between them (see `src/` template in the parent
   `projects/README.md`).
-
-## References
-
-None yet.

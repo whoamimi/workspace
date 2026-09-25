@@ -7,7 +7,7 @@
     "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}"
   },
   "explorer.compactFolders": true,
-  "workbench.iconTheme": "vs-seti",
+  "workbench.iconTheme": "ayu",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "charliermarsh.ruff",
   "[jupyter]": {

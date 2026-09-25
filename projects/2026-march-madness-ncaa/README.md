@@ -1,19 +1,19 @@
 # NCAA March Madness 2026
 
-## Competition Brief
+## Overview
 
 Kaggle's annual NCAA March Madness bracket-prediction competition:
 predict win probabilities for every possible matchup in the men's/women's
 tournament.
 
-## Objective
+#### Objective
 
 Given team/season/game data, predict the probability that Team 1 beats
 Team 2 for each tournament matchup, across all rounds (First Four →
 Round of 64 → Round of 32 → Sweet 16 → Elite 8 → Final Four →
 Championship).
 
-## Data
+#### Data
 
 - `teams`, `seasons`, `game_cities` — competition config tables.
 - Game-by-game results, keyed to tournament day ranges per round (see
@@ -39,23 +39,7 @@ Championship).
 
 ## Evaluation
 
-Official Kaggle metric: **Brier score** (or log-loss, depending on
-competition year — confirm against the current competition page).
-
-## Results
-
-_Not yet recorded — the notebook is at "Processing Draft 2," i.e. still
-iterating on feature engineering, with no scored submission yet._
-
-## Extensions
-
-- Resolve the "Processing Draft 2" iteration into a single canonical EDA
-  notebook before treating this as portfolio-ready.
-- Decide whether the logistic rank-difference heuristic, Massey features,
-  or an XGBoost/Elo approach (per `references/`) becomes the primary
-  model, and document the comparison.
-- Move feature engineering (Massey normalization, rank-difference logit)
-  into `src/features/` so it's reusable and testable outside the notebook.
+*Not available*
 
 ## References
 

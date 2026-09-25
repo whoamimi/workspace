@@ -1,4 +1,22 @@
-import sys
+"""
+Filename: /Users/mimiphan/Projects/projects/2025-brain-to-text/src/main.py
+Path: /Users/mimiphan/Projects/projects/2025-brain-to-text/src
+Created Date: Friday, March 20th 2026, 3:14:41 am
+Author: Mimi Phan
+
+Copyright (c) 2026 Mimeus AI
+"""
+
+"""
+Filename: /Users/mimiphan/Projects/projects/2025-brain-to-text/src/main.py
+Path: /Users/mimiphan/Projects/projects/2025-brain-to-text/src
+Created Date: Friday, March 20th 2026, 3:14:41 am
+Author: Mimi Phan
+
+Copyright (c) 2026 Mimeus AI
+"""
+
+
 import pickle
 import re
 from collections import Counter, defaultdict
@@ -15,20 +33,21 @@ from tqdm.auto import tqdm  # works on Kaggle
 
 # ------------------------ CONFIG ----------------------------
 
-from pathlib import Path
 
 INPUT_DIR = Path("/kaggle/input/brain-to-text-25")
 OUTPUT_DIR = Path("/kaggle/working/")
 # Input Comp Dataset
 NEURAL_DATA_DIR = INPUT_DIR / "t15_copyTask_neuralData" / "hdf5_data_final"
-PRETRAINED_DIR = INPUT_DIR / "t15_pretrained_rnn_baseline" / "t15_pretrained_rnn_baseline"
+PRETRAINED_DIR = (
+    INPUT_DIR / "t15_pretrained_rnn_baseline" / "t15_pretrained_rnn_baseline"
+)
 CKPT_DIR = PRETRAINED_DIR / "checkpoint"
 ARGS_PATH = CKPT_DIR / "args.yaml"
 CKPT_PATH = CKPT_DIR / "best_checkpoint"
 # Mounted Github Baseline Model
 BASELINE_MODEL_PATH = Path("/kaggle/input/baseline-model/pytorch/default/1")
 KB_PATH = OUTPUT_DIR / "knowledgeBase.pkl"
-OUTPUT_PATH = OUTPUT_DIR / 'submission.csv'
+OUTPUT_PATH = OUTPUT_DIR / "submission.csv"
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MAX_LOAD: Optional[int] = None
@@ -47,14 +66,16 @@ BATCH_SIZE = 256
 # ------------------------ TOKENIZER (LM) ---------------------
 
 TOKEN_PATTERN = re.compile(
-    r"(</s>|<s>)"              # BOS/EOS tags
-    r"|[A-Za-z']+"             # words + contractions
-    r"|[0-9]+"                 # numbers
-    r"|[^\sA-Za-z0-9]"         # punctuation/symbols
+    r"(</s>|<s>)"  # BOS/EOS tags
+    r"|[A-Za-z']+"  # words + contractions
+    r"|[0-9]+"  # numbers
+    r"|[^\sA-Za-z0-9]"  # punctuation/symbols
 )
+
 
 def tokenize(text: str) -> List[str]:
     return TOKEN_PATTERN.findall(text)
+
 
 def make_training_pairs(texts: Iterable[str], n_context: int = CONTEXT_SIZE):
     """
@@ -64,11 +85,13 @@ def make_training_pairs(texts: Iterable[str], n_context: int = CONTEXT_SIZE):
         toks = tokenize(t)
         toks = [BOS_TOKEN] * n_context + toks
         for i in range(n_context, len(toks)):
-            ctx = " ".join(toks[i - n_context:i])
+            ctx = " ".join(toks[i - n_context : i])
             nxt = toks[i]
             yield ctx, nxt
 
+
 # ------------------------ Online N-gram LM -------------------
+
 
 class OnlineNGramClassifier:
     """
@@ -121,11 +144,13 @@ class OnlineNGramClassifier:
             else:
                 self.clf.partial_fit(X, y)
 
-    def predict_next(self, last_words: List[str], topk: int = TOP_K) -> List[Tuple[str, float]]:
+    def predict_next(
+        self, last_words: List[str], topk: int = TOP_K
+    ) -> List[Tuple[str, float]]:
         if not self._is_fitted:
             raise RuntimeError("Model not fitted yet. Call partial_fit first.")
 
-        toks = [w if w in self.vocab else UNK for w in last_words][-self.n_context:]
+        toks = [w if w in self.vocab else UNK for w in last_words][-self.n_context :]
         ctx = " ".join(([BOS_TOKEN] * (self.n_context - len(toks))) + toks)
         X = self.vec.transform([ctx])
         proba = self.clf.predict_proba(X)[0]
@@ -161,7 +186,9 @@ class OnlineNGramClassifier:
         )
         return obj
 
+
 # ------------------------ KnowledgeBase ----------------------
+
 
 class KnowledgeBase:
     """
@@ -230,8 +257,9 @@ class KnowledgeBase:
         return probs
 
     def proof_reader(self, translated_sequence: List[str] | np.ndarray) -> List[str]:
-        assert self.ngram_model is not None, \
-            "ngram_model missing; call `update` on some true text first."
+        assert (
+            self.ngram_model is not None
+        ), "ngram_model missing; call `update` on some true text first."
 
         print(translated_sequence[:1])
 
@@ -300,6 +328,7 @@ class KnowledgeBase:
 
         return kb
 
+
 # ------------------------ Data loading -----------------------
 
 COLS = [
@@ -314,6 +343,7 @@ COLS = [
     "trial_num",
 ]
 
+
 def load_h5py_file(file_path: str) -> Dict[str, List]:
     data = {c: [] for c in COLS}
     with h5py.File(file_path, "r") as f:
@@ -324,7 +354,9 @@ def load_h5py_file(file_path: str) -> Dict[str, List]:
             seq_class_ids = g["seq_class_ids"][:] if "seq_class_ids" in g else None
             seq_len = g.attrs["seq_len"] if "seq_len" in g.attrs else None
             transcription = g["transcription"][:] if "transcription" in g else None
-            sentence_label = g.attrs["sentence_label"][:] if "sentence_label" in g.attrs else None
+            sentence_label = (
+                g.attrs["sentence_label"][:] if "sentence_label" in g.attrs else None
+            )
             session = g.attrs["session"]
             block_num = g.attrs["block_num"]
             trial_num = g.attrs["trial_num"]
@@ -339,6 +371,7 @@ def load_h5py_file(file_path: str) -> Dict[str, List]:
             data["block_num"].append(block_num)
             data["trial_num"].append(trial_num)
     return data
+
 
 class BrainToTextDataset(Dataset):
     """Dataset wrapper for train/val/test splits."""
@@ -355,11 +388,17 @@ class BrainToTextDataset(Dataset):
         self.input_path = input_path
         self.config = data_config
 
-        self.sessions_labels: List[str] = self.config.get("dataset", {}).get("sessions", [])
+        self.sessions_labels: List[str] = self.config.get("dataset", {}).get(
+            "sessions", []
+        )
         self.sessions = sorted(list(self.input_path.rglob(f"*{self._type}*")))
-        self.sessions_to_day_idx = {label: idx for idx, label in enumerate(self.sessions_labels)}
+        self.sessions_to_day_idx = {
+            label: idx for idx, label in enumerate(self.sessions_labels)
+        }
 
-        print(f"This Dataset Class will load {self._type} dataset up to {self._max_load}.")
+        print(
+            f"This Dataset Class will load {self._type} dataset up to {self._max_load}."
+        )
 
     def __getitem__(self, idx: int) -> Dict:
         if self._max_load is not None and idx >= self._max_load:
@@ -373,17 +412,23 @@ class BrainToTextDataset(Dataset):
 
         input_layer = self.sessions_to_day_idx[str(ss_file.parent.name)]
         neural_features = np.vstack(row["neural_features"])
-        assert neural_features.shape[-1] == NEURAL_HIDDEN_DIM, f"Neural features expected shape (*, 512) but got {neural_features.shape}"
+        assert (
+            neural_features.shape[-1] == NEURAL_HIDDEN_DIM
+        ), f"Neural features expected shape (*, 512) but got {neural_features.shape}"
 
         neural_input = np.expand_dims(neural_features, axis=0).astype(np.float32)
         features = torch.from_numpy(neural_input).to(DEVICE)
-        logits = runSingleDecodingStep(features, input_layer, model, self.config, DEVICE)
+        logits = runSingleDecodingStep(
+            features, input_layer, model, self.config, DEVICE
+        )
         print(f"Neural Shape: {features.shape} -> Logits shape: {logits.shape}")
 
         sentence_label = row.get("sentence_label", [])
 
         if self._type != "test":
-            true_label, pred_label = postprocess(true_labels=sentence_label, pred_logits=logits)
+            true_label, pred_label = postprocess(
+                true_labels=sentence_label, pred_logits=logits
+            )
         else:
             true_label, pred_label = [], postprocess_decoded_logits(logits)
 
@@ -400,7 +445,9 @@ class BrainToTextDataset(Dataset):
             return min(len(self.sessions), self._max_load)
         return len(self.sessions)
 
+
 # ------------------------ Decoding helpers -------------------
+
 
 def decode_single_item(logits: np.ndarray) -> List[str]:
     print(f"[decode_single_item]: {logits.shape}")
@@ -417,6 +464,7 @@ def decode_single_item(logits: np.ndarray) -> List[str]:
     pred_seq = [LOGIT_TO_PHONEME[p] for p in pred_seq]
     return pred_seq
 
+
 def preprocess_sentence_labels(sentence_labels: List[str]) -> List[str]:
     SENTENCE_DELIM = "\n\n"
     return (
@@ -425,12 +473,16 @@ def preprocess_sentence_labels(sentence_labels: List[str]) -> List[str]:
         .split("\n")
     )
 
+
 def postprocess_decoded_logits(logits: np.ndarray) -> List[str]:
     sample = decode_single_item(logits)
     tok_str = "".join(sample)
     return tok_str.split(" | ")
 
-def postprocess(true_labels: List[str], pred_logits: np.ndarray) -> Tuple[List[str], List[str]]:
+
+def postprocess(
+    true_labels: List[str], pred_logits: np.ndarray
+) -> Tuple[List[str], List[str]]:
     true_tokens = preprocess_sentence_labels(true_labels)
     pred_tokens = postprocess_decoded_logits(pred_logits)
 
@@ -459,7 +511,9 @@ def postprocess(true_labels: List[str], pred_logits: np.ndarray) -> Tuple[List[s
 
     return true_tokens_out, pred_tokens_out
 
+
 # ------------------------ Train / Val / Submit ---------------
+
 
 def run_trainer(
     smoothing: float = 0.85,
@@ -481,6 +535,7 @@ def run_trainer(
 
     return kb, input_data
 
+
 def run_validation(
     kb_path: Path = KB_PATH,
     kb: Optional[KnowledgeBase] = None,
@@ -497,7 +552,11 @@ def run_validation(
         pred_label: List[str] = item["pred_label"]
 
         translated_tokens = [
-            max(kb.translate(j).items(), key=lambda x: x[1])[0] if kb.translate(j) else j
+            (
+                max(kb.translate(j).items(), key=lambda x: x[1])[0]
+                if kb.translate(j)
+                else j
+            )
             for seq in pred_label
             for j in seq.split()
         ]
@@ -515,6 +574,7 @@ def run_validation(
         pairs.append((true_sentence, pred_sentence))
 
     return pairs
+
 
 def run_submission(
     kb_path: Path = KB_PATH,
@@ -538,7 +598,11 @@ def run_submission(
         pred_label: List[str] = item["pred_label"]
 
         translated_tokens = [
-            max(kb.translate(j).items(), key=lambda x: x[1])[0] if kb.translate(j) else j
+            (
+                max(kb.translate(j).items(), key=lambda x: x[1])[0]
+                if kb.translate(j)
+                else j
+            )
             for seq in pred_label
             for j in seq.split()
         ]
@@ -553,15 +617,19 @@ def run_submission(
         cleaned_sentence = " ".join(cleaned_list)
 
         # competition ignores punctuation and expects plain words [web:23]
-        cleaned_sentence = cleaned_sentence.replace(",", "").replace("?", "").replace(".", "")
+        cleaned_sentence = (
+            cleaned_sentence.replace(",", "").replace("?", "").replace(".", "")
+        )
         all_sentences.append(cleaned_sentence)
         all_ids.append(idx_counter)
         idx_counter += 1
 
     import pandas as pd
+
     df_out = pd.DataFrame({"id": all_ids, "text": all_sentences})
     output_csv.parent.mkdir(parents=True, exist_ok=True)
     df_out.to_csv(output_csv, index=False)
+
 
 # ------------------------ Usage in Kaggle Notebook ----------
 
