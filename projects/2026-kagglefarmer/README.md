@@ -4,7 +4,12 @@ A farming sim where two players compete to maximize their income from farming by
 
 ## Overview
 
-Each player starts with an empty farm and a small amount of income (seed money, if you will). Each turn, they can perform actions such as moving around the board, purchasing seeds or livestock, planting seeds, watering plants, harvesting produce or animal products, and selling that produce at the market. The game runs for a fixed amount of time representing one season, and the winner is determined by who has the most money in the bank at the end.
+Each player starts with:
+
+- An empty farm and
+- Small amount of income (seed money, if you will).
+
+Each turn, they can perform actions such as moving around the board, purchasing seeds or livestock, planting seeds, watering plants, harvesting produce or animal products, and selling that produce at the market. The game runs for a fixed amount of time representing one season, and the winner is determined by who has the most money in the bank at the end.
 
 ## Object Types
 
@@ -20,7 +25,11 @@ Each player starts with an empty farm and a small amount of income (seed money, 
 | **Sheep/Wool** | Ongoing | 500 | 200 | 6 days | NA | every three days, indefinitely | 6 held | 1 \+ 1 (build pasture) | 0.33 |
 | **Fertilizer** | NA | 100 | X |  | X | X |  | 1 |  |
 
-For crops, "Yield / tile / day" is total units harvested divided by the days the tile is occupied, watering daily and harvesting at peak yield. For animals it is the steady-state production rate (`1 / interval`) once the first yield lands; animals keep producing for as long as they are fed, so there is no fixed occupancy to divide by. "Max Yield" for animals is `max_held`, the cap on *unharvested* product sitting on the tile, not a lifetime total.
+For crops, "Yield / tile / day" is total units harvested divided by the days the tile is occupied, watering daily and harvesting at peak yield.
+
+For animals it is the steady-state production rate (`1 / interval`) once the first yield lands; animals keep producing for as long as they are fed, so there is no fixed occupancy to divide by.
+
+"Max Yield" for animals is `max_held`, the cap on *unharvested* product sitting on the tile, not a lifetime total.
 
 Crop "Time to Max Yield" is the age at which yield stops increasing under daily watering, which is not always the end of the bonus window:
 
@@ -40,7 +49,8 @@ Each Farmer / Farm Hand can be given an action every turn. Farmer/Farm Hand CAN 
 
 #### Movement
 
-- NORTH, SOUTH, EAST, WEST — Move one cell in that direction. Moves off the edge of the board are no-ops. Locked tiles are passable: a unit may move onto and across unbought quadrants, but tile actions (`PLANT`, `WATER`, `BUILD_*`, etc.) all no-op on a locked tile and consume nothing. The exception is the shed actions `PICKUP`, `DROP`, and `PLACE`-into-shed, which work from any shed-access tile even while that tile is locked — they use the tile only as a standing position and never change it.
+- `['NORTH', 'SOUTH', 'EAST', 'WEST']` — Move one cell in that direction. Moves off the edge of the board are no-ops.
+- Locked tiles are passable: a unit may move onto and across unbought quadrants, but tile actions (`PLANT`, `WATER`, `BUILD_*`, etc.) all no-op on a locked tile and consume nothing. The exception is the shed actions `PICKUP`, `DROP`, and `PLACE`-into-shed, which work from any shed-access tile even while that tile is locked — they use the tile only as a standing position and never change it.
 
 #### Shed
 
@@ -51,22 +61,22 @@ Picks up an item from the shed (must be orthogonally adjacent) into the inventor
 
 #### Plants
 
-- PLANT — Plant a seed purchased from the market  
-  - Seeds are automatically available to all Farmers / Farm Hands   
-  - If you try to plant too many in a specific turn, none are planted  
-    - ie if you have 1 melon seed, but two units do the PLANT MELON command  
-- WATER — Water a plant. This only needs to be done once per day, and subsequent waterings on the same day are a no-op.  
-- HARVEST — Gather produce from a plant. If the plant does not have subsequent yields, it will be removed from the map. Each harvest action will yield at least one unit of the crop, with the potential of additional yield depending on watering and fertilizer (the formula differs by crop type — see harvest yields below). Harvested items are added to the inventory. 
-- FERTILIZE — Fertilize a plant to increase its potential yield (see harvest yields below).  
+- PLANT — Plant a seed purchased from the market
+  - Seeds are automatically available to all Farmers / Farm Hands
+  - If you try to plant too many in a specific turn, none are planted
+    - ie if you have 1 melon seed, but two units do the PLANT MELON command
+- WATER — Water a plant. This only needs to be done once per day, and subsequent waterings on the same day are a no-op.
+- HARVEST — Gather produce from a plant. If the plant does not have subsequent yields, it will be removed from the map. Each harvest action will yield at least one unit of the crop, with the potential of additional yield depending on watering and fertilizer (the formula differs by crop type — see harvest yields below). Harvested items are added to the inventory.
+- FERTILIZE — Fertilize a plant to increase its potential yield (see harvest yields below).
   - Doubles the per-day yield bonus for the next 3 days. The bonus only applies on days the plant is also watered (basic needs first).
 
 #### Animals
 
-- PLACE `<item>` `[n]` — Drop items from the active farmer/hand inventory into either a tile or the shed:  
-  - **Animal placement**: standing on a matching unoccupied structure (`GOOSE` on a coop, `SHEEP`/`COW` on a pasture) places one animal from inventory onto the tile. The `n` argument is ignored.  
+- PLACE `<item>` `[n]` — Drop items from the active farmer/hand inventory into either a tile or the shed:
+  - **Animal placement**: standing on a matching unoccupied structure (`GOOSE` on a coop, `SHEEP`/`COW` on a pasture) places one animal from inventory onto the tile. The `n` argument is ignored.
   - **Shed drop**: standing orthogonally adjacent to the shed moves up to `n` (default 1) of `<item>` from inventory into the shed. Capped by `shedCapacity`; excess stays in inventory.
-- FEED — Feed an animal using wheat (only needs to be done once per day)  
-- HARVEST — Collect the eggs/milk/wool produced by the animal.   
+- FEED — Feed an animal using wheat (only needs to be done once per day)
+- HARVEST — Collect the eggs/milk/wool produced by the animal.
 - COLLECT\_FERTILIZER — Collect 1 fertilizer from the animal. Every surviving animal makes 1 available at the end of each day, whether or not it was fed or cared for. Uncollected fertilizer does not accumulate, so an animal left alone for five days still yields 1 unit.
 - CARE — Care for an animal (once per day, no-op if already cared for). See animal care below.
 
@@ -81,8 +91,8 @@ CARE banks a yield bonus that is paid out on the animal's next scheduled product
 
 #### Terrain
 
-- BUILD\_COOP \- adds a coop to an unoccupied tile  
-- BUILD\_PASTURE \- add pasture to an unoccupied tile  
+- BUILD\_COOP \- adds a coop to an unoccupied tile
+- BUILD\_PASTURE \- add pasture to an unoccupied tile
 - DIG — Remove a plant from a square to free up space OR remove a weed from a square (does not yield any produce) OR remove an **empty** goose coop / pasture. A coop or pasture with an animal on it cannot be dug; the DIG is a no-op.
 
 #### Other
@@ -93,17 +103,17 @@ CARE banks a yield bonus that is paid out on the animal's next scheduled product
 
 Each turn you can submit up to `maxMarketOrdersPerTurn` (default 10) market actions; any orders past that limit are silently dropped. This is an ordered list and market orders will be processed in order simultaneously (one from each player) while both players have orders.
 
-- BUY\_SEED — Purchase N units of a single item from the market.  
-  - BUY\_SEED WHEAT 1  
-- BUY\_ANIMAL \-   
-  - BUY\_ANIMAL GOOSE 1  
-- BUY\_PRODUCT  
-  - BUY\_PRODUCT WHEAT 1  
-  - BUY\_PRODUCT FERTILIZER 1  
-- SELL — Sell N units of a single item to the market.  
-  - SELL WHEAT 1  
-- HIRE — Hire a farm hand for the day. Cost increases for each extra hand hired on the same day.  
-- BUY\_LAND \- unlock a new 5x5 segment of land to plant on. Increasing in cost.   
+- BUY\_SEED — Purchase N units of a single item from the market.
+  - BUY\_SEED WHEAT 1
+- BUY\_ANIMAL \-
+  - BUY\_ANIMAL GOOSE 1
+- BUY\_PRODUCT
+  - BUY\_PRODUCT WHEAT 1
+  - BUY\_PRODUCT FERTILIZER 1
+- SELL — Sell N units of a single item to the market.
+  - SELL WHEAT 1
+- HIRE — Hire a farm hand for the day. Cost increases for each extra hand hired on the same day.
+- BUY\_LAND \- unlock a new 5x5 segment of land to plant on. Increasing in cost.
   - Costs are: $1k, $2k, $4k
 
 ## Watering / Animal Feed
@@ -118,11 +128,11 @@ Note that watering one-time yield plants during their yield window results in a 
 
 ## Harvest Yields
 
-Plants will potentially have higher yields based on how well they have been cared for. 
+Plants will potentially have higher yields based on how well they have been cared for.
 
-* **One-time crops** (wheat, carrot, melon): Starting at half the plant's `max_yield_day` (Time to Max Yield) rounded up, watering during the bonus window will add one unit per day to the total harvestable yield.  
-  * Fertilized plants add 2 per day instead.  
-* **Ongoing crops** (tomato, strawberry): Scheduled production happens at fixed intervals. The base yield is 1 per scheduled production. If the plant is fertilized AND watered that day, yield is doubled to 2.  
+* **One-time crops** (wheat, carrot, melon): Starting at half the plant's `max_yield_day` (Time to Max Yield) rounded up, watering during the bonus window will add one unit per day to the total harvestable yield.
+  * Fertilized plants add 2 per day instead.
+* **Ongoing crops** (tomato, strawberry): Scheduled production happens at fixed intervals. The base yield is 1 per scheduled production. If the plant is fertilized AND watered that day, yield is doubled to 2.
 * Once a plant has hit its maximum lifespan, the total yield available on the plant will reduce by 1 every other turn until it hits 0, at which point the plant becomes a weed.
   * **One-time crops** reach max lifespan one day after `max_yield_day`.
   * **Ongoing crops** start decay one day after their cumulative production count reaches `max_yield` (i.e. they've fired enough scheduled productions to hit the cap, regardless of whether the produce has been harvested).
@@ -133,17 +143,17 @@ Each player has their own farm with a set number of squares. Players are unable 
 
 ### Farm Space
 
-- The land near your farm is a `boardSize` × `boardSize` grid (default 10×10), divided into four 5×5 quadrants. At first, your farm covers one quadrant (25% of the squares). For an increasingly large fee, you can buy the neighboring quadrants and eventually cover 100% of the squares.  
-- Each plant or animal occupies one square on the farm.  
-- Players can allocate these squares however they choose between crops and livestock. There are no specific limits per type.  
-- Weeds have a chance of spawning on any empty cells on the farm, and must be cleared before the land can be used for other purposes.  
+- The land near your farm is a `boardSize` × `boardSize` grid (default 10×10), divided into four 5×5 quadrants. At first, your farm covers one quadrant (25% of the squares). For an increasingly large fee, you can buy the neighboring quadrants and eventually cover 100% of the squares.
+- Each plant or animal occupies one square on the farm.
+- Players can allocate these squares however they choose between crops and livestock. There are no specific limits per type.
+- Weeds have a chance of spawning on any empty cells on the farm, and must be cleared before the land can be used for other purposes.
 - Squares on the farm can be either a plant, a coop/pasture, a weed, or empty.
 
 ### Shed (Inventory)
 
-- Functions as an inventory for items that are harvested but not yet sold, or for seeds that have not yet been planted  
-- Farmer and hired farm hands will spawn at the shed at the start of each day  
-- Farmer and hired farm hands drop their inventory at the end of the day in the shed (if there is room)  
+- Functions as an inventory for items that are harvested but not yet sold, or for seeds that have not yet been planted
+- Farmer and hired farm hands will spawn at the shed at the start of each day
+- Farmer and hired farm hands drop their inventory at the end of the day in the shed (if there is room)
 - Limited to 100 items, excluding seeds. Once the shed is full, any further items added (via `PLACE` mid-day or end-of-day inventory drop) are discarded — there is no overflow holding area, so stockpiling on farmer/hand inventories does not bypass the cap.
 
 The shed sits at the center of the board and is not a tile — it never appears in the `tiles` array, whose only values are `None`, `"LOCKED"`, and structure dicts. "Orthogonally adjacent to the shed" means standing on one of the four center tiles, `(half-1, half-1)`, `(half, half-1)`, `(half-1, half)`, `(half, half)` for `half = boardSize // 2`. At the default `boardSize = 10` those are `(4,4)`, `(5,4)`, `(4,5)`, and `(5,5)`, one in each quadrant. Since only NW starts unlocked, three of those four tiles begin locked; the shed is reachable from all of them regardless, because the shed itself is never locked.
@@ -152,16 +162,16 @@ The shed sits at the center of the board and is not a tile — it never appears 
 
 #### Hiring
 
-- Hiring is a market order (`HIRE`). It costs more every time you want to hire an additional hand each day. At the end of the day all, hands drop inventory at the farm and disappear (need to be re-hired each day)  
-- Cost is `farmHandCostMult * fib(n)` where `n` is the number of hires already made today (fib starts 1, 1, 2, 3, 5, 8, 13, ...).  
-  - With the default `farmHandCostMult = 1`: 1, 1, 2, 3, 5, 8, 13, 21, etc… (resets at the start of each day)  
+- Hiring is a market order (`HIRE`). It costs more every time you want to hire an additional hand each day. At the end of the day all, hands drop inventory at the farm and disappear (need to be re-hired each day)
+- Cost is `farmHandCostMult * fib(n)` where `n` is the number of hires already made today (fib starts 1, 1, 2, 3, 5, 8, 13, ...).
+  - With the default `farmHandCostMult = 1`: 1, 1, 2, 3, 5, 8, 13, 21, etc… (resets at the start of each day)
 - A hired hand appears orthogonally adjacent to the shed in a free space following NWSE. If there are not open spaces, it looks for the one with the least occupants, breaking ties by NWSE preference
 - Spawn placement ignores whether the tile is locked. Since the main farmer starts on `(4,4)`, the least-occupied rule sends the first hire of each day to `(5,4)`, which is locked until the NE quadrant is bought. Locked tiles are passable, so a hand spawned on one can move back to unlocked land.
 
 #### Inventory
 
-- When harvesting or picking items up, they are added to inventory.  
-- Can drop items in the shed  
+- When harvesting or picking items up, they are added to inventory.
+- Can drop items in the shed
 - At the end of the day, all items in all inventory will be added to shed inventory (if there is room). Anything that doesn't fit is discarded — overflow is lost.
 
 ### Town Buildings
@@ -245,14 +255,14 @@ The defaults live in `MARKET_PARAMS` in `kaggriculture.py`. Per-resource overrid
 
 ## Turn Processing Order
 
-1. **Action validation** — verify action legality  
-2. **Player actions** — record the actions taken by each player (happening simultaneously)  
-3. **Market actions** \- process market queue in order by player (described above)  
-4. **Town buy actions** \- town center and shops reduce inventory  
-5. **Update observations**  
-   - **Day refresh** — if applicable, update the condition of plants and animals for a new day, and reset their fed/watered to condition to false  
-   - **Market refresh** — modify the price of items on the market based on sells from previous turn  
-   - **Income update** — update the player’s bank based on any buys or sells  
+1. **Action validation** — verify action legality
+2. **Player actions** — record the actions taken by each player (happening simultaneously)
+3. **Market actions** \- process market queue in order by player (described above)
+4. **Town buy actions** \- town center and shops reduce inventory
+5. **Update observations**
+   - **Day refresh** — if applicable, update the condition of plants and animals for a new day, and reset their fed/watered to condition to false
+   - **Market refresh** — modify the price of items on the market based on sells from previous turn
+   - **Income update** — update the player’s bank based on any buys or sells
    - **Farm update** — clear plants that have been harvested, items from the inventory that have been used or sold, add new plants/animals to the farm, etc
 
 ## Win Conditions
@@ -305,34 +315,35 @@ A `tile` is one of:
 
 - `None` — empty unlocked tile
 - `"LOCKED"` — tile in a quadrant the player has not yet bought
-- a plant dict:
-  ```py
-  {
-    "kind":                 "PLANT",
-    "crop":                 "WHEAT" | "CARROT" | "TOMATO" | "STRAWBERRY" | "MELON",
-    "planted_day":          int,
-    "watered_today":        bool,   # reset to False each end-of-day
-    "consecutive_unwatered": int,   # 2+ → tile turns to a weed
-    "yield_units":          int,    # units currently harvestable
-    "max_lifespan_step":    int,    # step at which decay begins; -1 for ongoing crops
-    "fertilized_until_day": int,    # last day fertilizer bonus applies; -1 if none
-  }
-  ```
-- a weed dict: `{"kind": "WEED"}`
+- a crop dict organised by \`kind\`, \`\['PLANT', 'WEED'\]\`:
+
+    ```py
+    {
+      "kind":                 "PLANT" | "WEED",
+      "crop":                 "WHEAT" | "CARROT" | "TOMATO" | "STRAWBERRY" | "MELON",
+      "planted_day":          int,
+      "watered_today":        bool,   # reset to False each end-of-day
+      "consecutive_unwatered": int,   # 2+ → tile turns to a weed
+      "yield_units":          int,    # units currently harvestable
+      "max_lifespan_step":    int,    # step at which decay begins; -1 for ongoing crops
+      "fertilized_until_day": int,    # last day fertilizer bonus applies; -1 if none
+    }
+    ```
 - an animal structure dict (coop/pasture, optionally occupied):
-  ```py
-  {
-    "kind":                 "COOP" | "PASTURE",
-    "animal":               "GOOSE" | "COW" | "SHEEP" | None,  # None until PLACEd
-    "placed_day":           int,
-    "yield_units":          int,
-    "fed_today":            bool,
-    "consecutive_unfed":    int,    # 2+ → animal escapes
-    "cared_today":          bool,
-    "fertilizer_available": bool,   # set at end-of-day for every surviving animal; cleared by COLLECT_FERTILIZER
-    "pending_care_bonus":   int,    # banked CARE bonus, applied on the next yield tick
-  }
-  ```
+
+    ```py
+    {
+      "kind":                 "COOP" | "PASTURE",
+      "animal":               "GOOSE" | "COW" | "SHEEP" | None,  # None until PLACEd
+      "placed_day":           int,
+      "yield_units":          int,
+      "fed_today":            bool,
+      "consecutive_unfed":    int,    # 2+ → animal escapes
+      "cared_today":          bool,
+      "fertilizer_available": bool,   # set at end-of-day for every surviving animal; cleared by COLLECT_FERTILIZER
+      "pending_care_bonus":   int,    # banked CARE bonus, applied on the next yield tick
+    }
+    ```
 
 ## Quick Start
 

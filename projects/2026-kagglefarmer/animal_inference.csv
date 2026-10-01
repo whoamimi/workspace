@@ -1,0 +1,4 @@
+,cost,structure,first_yield_day,interval,max_held,product,base,I0,T,below_func,below_target,above_func,above_target
+GOOSE,300,COOP,4,1,4,EGG,50,10000,332,hinge,0.4,log,0.2
+COW,400,PASTURE,8,2,6,MILK,160,10000,122,sqrt,0.6,linear,1.6
+SHEEP,500,PASTURE,6,3,6,WOOL,200,10000,105,log,0.2,sq,3.2
