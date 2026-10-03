@@ -229,5 +229,8 @@ __marimo__/
 
 # Custom ignores
 .venv/
+
 .kaggle-outputs/
-.outputs/
+**/inputs/
+**/outputs/
+**/output/
