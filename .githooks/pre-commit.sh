@@ -1,3 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+
 uv pip freeze > requirements.txt
 git add requirements.txt
