@@ -1,0 +1,1 @@
+- [ ] Hugging Face Repository CLI Setup

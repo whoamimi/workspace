@@ -234,3 +234,9 @@ __marimo__/
 **/inputs/
 **/outputs/
 **/output/
+.outputs/
+draft/
+setup.ipynb
+
+20261102_channel_webhook.ipynb
+20261102_discord_bot.ipynb

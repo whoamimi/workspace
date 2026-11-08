@@ -1,7 +1,8 @@
 """__init__.py"""
 
 import logging
-from .src.connectors import check_kaggle_connection
+
+from .tools.connectors import check_kaggle_connection
 
 logger = logging.getLogger(__name__)
 logger.info(
